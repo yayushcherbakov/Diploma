@@ -7,7 +7,7 @@ namespace AuditService.DataAccess.Repositories;
 internal class SubscriptionsTemplatesRepository : BaseRepository<SubscriptionTemplate>,
     ISubscriptionsTemplatesRepository
 {
-    protected SubscriptionsTemplatesRepository(AuditDbContext context) : base(context)
+    public SubscriptionsTemplatesRepository(AuditDbContext context) : base(context)
     {
     }
 }

@@ -6,7 +6,7 @@ namespace AuditService.DataAccess.Repositories;
 
 internal class LessonsRepository : BaseRepository<Lesson>, ILessonsRepository
 {
-    protected LessonsRepository(AuditDbContext auditDbContext) : base(auditDbContext)
+    public LessonsRepository(AuditDbContext auditDbContext) : base(auditDbContext)
     {
     }
 }

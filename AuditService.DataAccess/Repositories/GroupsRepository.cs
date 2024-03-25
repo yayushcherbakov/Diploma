@@ -6,7 +6,7 @@ namespace AuditService.DataAccess.Repositories;
 
 internal class GroupsRepository : BaseRepository<Group>, IGroupsRepository
 {
-    protected GroupsRepository(AuditDbContext auditDbContext) : base(auditDbContext)
+    public GroupsRepository(AuditDbContext auditDbContext) : base(auditDbContext)
     {
     }
 }

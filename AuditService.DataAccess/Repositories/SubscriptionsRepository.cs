@@ -6,7 +6,7 @@ namespace AuditService.DataAccess.Repositories;
 
 internal class SubscriptionsRepository : BaseRepository<Subscription>, ISubscriptionsRepository
 {
-    protected SubscriptionsRepository(AuditDbContext auditDbContext) : base(auditDbContext)
+    public SubscriptionsRepository(AuditDbContext auditDbContext) : base(auditDbContext)
     {
     }
 }

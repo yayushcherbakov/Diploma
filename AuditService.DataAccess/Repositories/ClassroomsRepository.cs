@@ -6,7 +6,7 @@ namespace AuditService.DataAccess.Repositories;
 
 internal class ClassroomsRepository : BaseRepository<Classroom>, IClassroomsRepository
 {
-    protected ClassroomsRepository(AuditDbContext auditDbContext) : base(auditDbContext)
+    public ClassroomsRepository(AuditDbContext auditDbContext) : base(auditDbContext)
     {
     }
 }
