@@ -79,7 +79,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
 
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new() {Title = "Audit service", Version = "v1"});
+    option.SwaggerDoc("v1", new() {Title = "Tango school management service", Version = "v1"});
     option.AddSecurityDefinition("Bearer", new()
     {
         In = ParameterLocation.Header,
