@@ -5,7 +5,7 @@ using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
 
 namespace TangoSchool.ApplicationServices.Services;
 
-public class AuditLogService : IAuditLogService
+internal class AuditLogService : IAuditLogService
 {
     private readonly IReadOnlyTangoSchoolDbContext _readOnlyTangoSchoolDbContext;
 
