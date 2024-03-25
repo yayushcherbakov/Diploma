@@ -1,0 +1,20 @@
+﻿namespace AuditService.DataAccess.Entities;
+
+public class LessonRequest
+{
+    public Guid Id { get; set; }
+    
+    public string? Description { get; set; }
+
+    public DateTimeOffset StartTime { get; set; }
+    
+    public DateTimeOffset FinishTime { get; set; }
+    
+    public Guid StudentId { get; set; }
+    
+    public Student Student { get; set; } = null!;
+    
+    public Guid TeacherId { get; set; }
+    
+    public Teacher Teacher { get; set; } = null!;
+}

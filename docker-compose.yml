@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  database:
+    image: postgres
+    environment:
+        POSTGRES_DB: "AuditDB"
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "jBd_7Nwm0l"
+    ports:
+        - "7000:5432"
+  backend:
+    image: auditservice.controllers
+    build:
+      context: .
+      dockerfile: Auditservice.Controllers\Dockerfile
+    ports:
+        - "7001:80"
+    restart: always
