@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Models.AuditLogs;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
@@ -26,8 +27,7 @@ internal class AuditLogService : IAuditLogService
 
         var result = await query
             .OrderBy(x => x.Timestamp)
-            .Skip(payload.Page * payload.ItemsPerPage)
-            .Take(payload.ItemsPerPage)
+            .Paginate(payload.ItemsPerPage, payload.Page)
             .Select(x => new AuditLogModel
             (
                 x.ApplicationUserId,
@@ -53,8 +53,7 @@ internal class AuditLogService : IAuditLogService
 
         var result = await query
             .OrderBy(x => x.Timestamp)
-            .Skip(payload.Page * payload.ItemsPerPage)
-            .Take(payload.ItemsPerPage)
+            .Paginate(payload.ItemsPerPage, payload.Page)
             .Select(x =>
                 new AuditLogModel
                 (

@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TangoSchool.ApplicationServices.Constants;
+using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Mappers;
 using TangoSchool.ApplicationServices.Models.Classrooms;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
+using TangoSchool.DataAccess.Entities;
 using TangoSchool.DataAccess.Repositories.Interfaces;
 
 namespace TangoSchool.ApplicationServices.Services;
@@ -57,7 +59,7 @@ internal class ClassroomsService : IClassroomsService
         var classroom = await _readOnlyTangoSchoolDbContext
             .Classrooms
             .Where(x => x.Id == id)
-            .Select(x => new GetClassroomResponse(x.Name, x.Description))
+            .Select(x => new GetClassroomResponse(x.Name, x.Description, x.Terminated))
             .SingleOrDefaultAsync(cancellationToken);
 
         if (classroom is null)
@@ -66,5 +68,90 @@ internal class ClassroomsService : IClassroomsService
         }
 
         return classroom;
+    }
+
+    public async Task TerminateClassroom(Guid id, CancellationToken cancellationToken)
+    {
+        var classroom = await _readOnlyTangoSchoolDbContext
+            .Classrooms
+            .Where(x => x.Id == id)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (classroom is null)
+        {
+            throw new ApplicationException(GeneralErrorMessages.ClassroomWasNotFound);
+        }
+
+        classroom.Terminated = true;
+
+        _classroomsRepository.Update(classroom);
+
+        await _classroomsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task RestoreClassroom(Guid id, CancellationToken cancellationToken)
+    {
+        var classroom = await _readOnlyTangoSchoolDbContext
+            .Classrooms
+            .Where(x => x.Id == id)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (classroom is null)
+        {
+            throw new ApplicationException(GeneralErrorMessages.ClassroomWasNotFound);
+        }
+
+        classroom.Terminated = false;
+
+        _classroomsRepository.Update(classroom);
+
+        await _classroomsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<GetAllClassroomsResponse> GetAllClassrooms
+    (
+        GetAllClassroomsPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        IQueryable<Classroom> query = _readOnlyTangoSchoolDbContext.Classrooms;
+
+        if (!payload.IncludeTerminated)
+        {
+            query = query.Where(x => !x.Terminated);
+        }
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var result = await query
+            .Paginate(payload.ItemsPerPage, payload.Page)
+            .Select(x => new GetAllClassroomsResponseItem(x.Id, x.Name, x.Description, x.Terminated))
+            .ToListAsync(cancellationToken);
+
+        return new(result, totalCount);
+    }
+
+    public async Task<List<AvailableClassroom>> GetAvailableClassrooms
+    (
+        GetAvailableClassroomsPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        if (payload.StartTime >= payload.FinishTime)
+        {
+            throw new ApplicationException(GeneralErrorMessages.StartTimeMustBeLessThanFinishTime);
+        }
+
+        var notAvailableClassroomsQuery = _readOnlyTangoSchoolDbContext
+            .Lessons
+            .Where(x => (x.StartTime >= payload.StartTime && x.StartTime <= payload.FinishTime)
+                || (x.FinishTime >= payload.StartTime && x.FinishTime <= payload.FinishTime))
+            .Select(x => x.ClassroomId);
+
+        return await _readOnlyTangoSchoolDbContext
+            .Classrooms
+            .Where(x => !x.Terminated && !notAvailableClassroomsQuery.Contains(x.Id))
+            .Select(x => new AvailableClassroom(x.Id, x.Name))
+            .ToListAsync(cancellationToken);
     }
 }

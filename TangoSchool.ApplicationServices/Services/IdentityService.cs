@@ -248,8 +248,7 @@ internal class IdentityService : IIdentityService
     {
         var usersInformation = await _readOnlyTangoSchoolDbContext
             .Users
-            .Skip(payload.ItemsPerPage * payload.Page)
-            .Take(payload.ItemsPerPage)
+            .Paginate(payload.ItemsPerPage, payload.Page)
             .Select(x => new UserInformation()
             {
                 UserId = x.Id,

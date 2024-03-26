@@ -21,4 +21,28 @@ public interface IClassroomsService
         Guid id,
         CancellationToken cancellationToken
     );
+
+    Task TerminateClassroom
+    (
+        Guid id,
+        CancellationToken cancellationToken
+    );
+    
+    Task RestoreClassroom
+    (
+        Guid id,
+        CancellationToken cancellationToken
+    );
+
+    Task<GetAllClassroomsResponse> GetAllClassrooms
+    (
+        GetAllClassroomsPayload payload,
+        CancellationToken cancellationToken
+    );
+
+    Task<List<AvailableClassroom>> GetAvailableClassrooms
+    (
+        GetAvailableClassroomsPayload payload,
+        CancellationToken cancellationToken
+    );
 }

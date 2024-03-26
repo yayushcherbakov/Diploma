@@ -24,16 +24,6 @@ internal class BaseRepository<TEntity> : IRepositoryBase<TEntity> where TEntity 
     {
         Context.Set<TEntity>().AddRange(entities);
     }
-
-    public virtual void Delete(TEntity entity)
-    {
-        Context.Set<TEntity>().Remove(entity);
-    }
-    
-    public virtual void DeleteRange(ICollection<TEntity> entities)
-    {
-        Context.Set<TEntity>().RemoveRange(entities);
-    }
     
     public virtual void Update(TEntity entity)
     {
