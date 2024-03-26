@@ -23,7 +23,7 @@ public static class ServiceCollectionExtensions
             .AddScoped<IStudentsRepository, StudentsRepository>()
             .AddScoped<IClassroomsRepository, ClassroomsRepository>()
             .AddScoped<IGroupsRepository, GroupsRepository>()
-            .AddScoped<ILessonsRepository, LessonsRepository>()
+            .AddScoped<ISubscriptionsRepository, SubscriptionsRepository>()
             .AddScoped<ILessonsRepository, LessonsRepository>()
             .AddScoped<ISubscriptionsTemplatesRepository, SubscriptionsTemplatesRepository>()
             .AddScoped<ITeachersRepository, TeachersRepository>()
