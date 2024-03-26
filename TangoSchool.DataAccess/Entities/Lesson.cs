@@ -32,5 +32,7 @@ public class Lesson
     
     public Group? Group { get; set; } = null!;
     
+    public bool Terminated { get; set; }
+    
     public ICollection<Subscription> UsedSubscriptions { get; set; } = new List<Subscription>();
 }

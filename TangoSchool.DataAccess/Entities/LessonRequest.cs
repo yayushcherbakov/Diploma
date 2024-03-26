@@ -17,4 +17,6 @@ public class LessonRequest
     public Guid TeacherId { get; set; }
     
     public Teacher Teacher { get; set; } = null!;
+    
+    public bool Terminated { get; set; }
 }

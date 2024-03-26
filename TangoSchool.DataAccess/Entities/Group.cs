@@ -18,6 +18,8 @@ public class Group
     
     public Teacher Teacher { get; set; } = null!;
     
+    public bool Terminated { get; set; }
+    
     public ICollection<StudentGroup> JoinedStudentGroups { get; set; } = new List<StudentGroup>();
     
     public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
