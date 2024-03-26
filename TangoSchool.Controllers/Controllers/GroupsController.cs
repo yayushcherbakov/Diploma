@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TangoSchool.ApplicationServices.Constants;
-using TangoSchool.ApplicationServices.Models.Classrooms;
 using TangoSchool.ApplicationServices.Models.Groups;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 
