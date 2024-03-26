@@ -46,7 +46,7 @@ internal class ClassroomsService : IClassroomsService
 
         classroom.Name = payload.Name;
         classroom.Description = payload.Description;
-            
+
         _classroomsRepository.Update(classroom);
 
         await _classroomsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
@@ -57,7 +57,7 @@ internal class ClassroomsService : IClassroomsService
         var classroom = await _readOnlyTangoSchoolDbContext
             .Classrooms
             .Where(x => x.Id == id)
-            .Select(x=> new GetClassroomResponse(x.Name, x.Description))
+            .Select(x => new GetClassroomResponse(x.Name, x.Description))
             .SingleOrDefaultAsync(cancellationToken);
 
         if (classroom is null)

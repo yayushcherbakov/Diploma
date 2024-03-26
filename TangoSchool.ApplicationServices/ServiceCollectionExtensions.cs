@@ -14,5 +14,6 @@ public static class ServiceCollectionExtensions
             .AddScoped<IIdentityService, IdentityService>()
             .AddScoped<IAuditLogService, AuditLogService>()
             .AddScoped<IClassroomsService, ClassroomsService>()
+            .AddScoped<ISubscriptionsService, SubscriptionsService>()
             .AddScoped<IEmailSender, EmailSender>();
 }
