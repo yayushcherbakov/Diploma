@@ -4,10 +4,10 @@ namespace TangoSchool.ApplicationServices.Models.Identities;
 
 public class UpdateUserRolesRequest
 {
-    [Required] 
+    [Required]
     public Guid Id { get; set; }
- 
-    [Required] 
-    [Display(Name = "Роли")] 
+
+    [Required]
+    [Display(Name = "Роли")]
     public HashSet<string> Roles { get; set; } = new();
 }

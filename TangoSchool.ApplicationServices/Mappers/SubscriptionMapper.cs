@@ -3,7 +3,7 @@ using TangoSchool.DataAccess.Entities;
 
 namespace TangoSchool.ApplicationServices.Mappers;
 
-internal static class SubscriptionsMapper
+internal static class SubscriptionMapper
 {
     public static Subscription MapToDatabaseSubscription(this CreateSubscriptionPayload model)
     {

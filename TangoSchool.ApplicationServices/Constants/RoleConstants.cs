@@ -1,4 +1,4 @@
-namespace TangoSchool.ApplicationServices.Constants;
+﻿namespace TangoSchool.ApplicationServices.Constants;
 
 public static class RoleConstants
 {

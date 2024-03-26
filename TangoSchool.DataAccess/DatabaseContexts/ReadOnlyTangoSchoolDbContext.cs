@@ -8,12 +8,12 @@ internal sealed class ReadOnlyTangoSchoolDbContext : TangoSchoolDbContext, IRead
     public ReadOnlyTangoSchoolDbContext(DbContextOptions<TangoSchoolDbContext> options)
         : base(options)
     { }
-    
+
     public override int SaveChanges()
     {
         throw new InvalidOperationException("This context is read-only.");
     }
-    
+
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
         throw new InvalidOperationException("This context is read-only.");
@@ -35,11 +35,11 @@ internal sealed class ReadOnlyTangoSchoolDbContext : TangoSchoolDbContext, IRead
     {
         throw new InvalidOperationException("This context is read-only.");
     }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        
+
         base.OnConfiguring(optionsBuilder);
     }
 }

@@ -21,13 +21,13 @@ public interface IIdentityService
         RegisterStudentPayload userPayload,
         CancellationToken cancellationToken
     );
-    
+
     public Task<AuthResponse> RegisterAdministrator
     (
         RegisterAdministratorPayload userPayload,
         CancellationToken cancellationToken
     );
-    
+
     public Task<AuthResponse> RegisterTeacher
     (
         RegisterTeacherPayload userPayload,
@@ -82,7 +82,7 @@ public interface IIdentityService
         RequestResetPasswordPayload payload,
         CancellationToken cancellationToken
     );
-    
+
     public Task ConfirmResetPassword
     (
         ConfirmResetPasswordPayload payload,

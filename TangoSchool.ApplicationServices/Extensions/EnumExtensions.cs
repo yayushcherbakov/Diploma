@@ -14,7 +14,7 @@ public static class EnumExtensions
             ?.GetName()!);
     }
 
-    public static Dictionary<string, string> GetDisplayNamePairs<T>() where T: Enum
+    public static Dictionary<string, string> GetDisplayNamePairs<T>() where T : Enum
     {
         var dict = new Dictionary<string, string>();
 
@@ -22,7 +22,7 @@ public static class EnumExtensions
         {
             var enumType = enumValue is T type ? type : default;
             var displayName = enumType.GetDisplayNamePair();
-            dict.Add(displayName.Key,displayName.Value);
+            dict.Add(displayName.Key, displayName.Value);
         }
 
         return dict;

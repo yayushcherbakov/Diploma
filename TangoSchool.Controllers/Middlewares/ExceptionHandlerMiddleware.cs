@@ -30,10 +30,10 @@ public class ExceptionHandlerMiddleware
 
             var response = exception switch
             {
-                ApplicationException _ => new((int)HttpStatusCode.BadRequest, exception.Message),
-                KeyNotFoundException _ => new((int)HttpStatusCode.NotFound, "The request key not found."),
-                UnauthorizedAccessException _ => new((int)HttpStatusCode.Unauthorized, "Unauthorized."),
-                _ => new ExceptionResponse((int)HttpStatusCode.InternalServerError, "Internal server error. Please retry later.")
+                ApplicationException _ => new((int) HttpStatusCode.BadRequest, exception.Message),
+                KeyNotFoundException _ => new((int) HttpStatusCode.NotFound, "The request key not found."),
+                UnauthorizedAccessException _ => new((int) HttpStatusCode.Unauthorized, "Unauthorized."),
+                _ => new ExceptionResponse((int) HttpStatusCode.InternalServerError, "Internal server error. Please retry later.")
             };
 
             context.Response.ContentType = "application/json";

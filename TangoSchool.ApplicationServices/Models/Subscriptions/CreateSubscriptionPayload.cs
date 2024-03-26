@@ -1,5 +1,4 @@
-﻿using TangoSchool.DataAccess.Entities;
-using TangoSchool.DataAccess.Enums;
+﻿using TangoSchool.DataAccess.Enums;
 
 namespace TangoSchool.ApplicationServices.Models.Subscriptions;
 

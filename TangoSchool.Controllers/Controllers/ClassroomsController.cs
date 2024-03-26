@@ -18,7 +18,7 @@ public class ClassroomsController : ControllerBase
     {
         _classroomsService = classroomsService;
     }
-    
+
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateClassroom
     (
@@ -28,7 +28,7 @@ public class ClassroomsController : ControllerBase
     {
         return Ok(await _classroomsService.CreateClassroom(payload, cancellationToken));
     }
-    
+
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateClassroom
     (
@@ -40,7 +40,7 @@ public class ClassroomsController : ControllerBase
 
         return Ok();
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<GetClassroomResponse>> GetClassroom
     (
@@ -50,7 +50,7 @@ public class ClassroomsController : ControllerBase
     {
         return Ok(await _classroomsService.GetClassroom(id, cancellationToken));
     }
-    
+
     [HttpPost("{id:guid}/Terminate")]
     public async Task<ActionResult> TerminateClassroom
     (
@@ -59,10 +59,10 @@ public class ClassroomsController : ControllerBase
     )
     {
         await _classroomsService.TerminateClassroom(id, cancellationToken);
-        
+
         return Ok();
     }
-    
+
     [HttpPost("{id:guid}/Restore")]
     public async Task<ActionResult> RestoreClassroom
     (
@@ -71,10 +71,10 @@ public class ClassroomsController : ControllerBase
     )
     {
         await _classroomsService.RestoreClassroom(id, cancellationToken);
-        
+
         return Ok();
     }
-    
+
     [HttpGet("GetAll")]
     public async Task<ActionResult<GetAllClassroomsResponse>> GetAllClassrooms
     (
@@ -84,7 +84,7 @@ public class ClassroomsController : ControllerBase
     {
         return Ok(await _classroomsService.GetAllClassrooms(payload, cancellationToken));
     }
-    
+
     [HttpGet("GetAvailableClassrooms")]
     public async Task<ActionResult<List<AvailableClassroom>>> GetAvailableClassrooms
     (

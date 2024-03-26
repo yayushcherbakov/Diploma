@@ -24,12 +24,12 @@ internal class BaseRepository<TEntity> : IRepositoryBase<TEntity> where TEntity 
     {
         Context.Set<TEntity>().AddRange(entities);
     }
-    
+
     public virtual void Update(TEntity entity)
     {
         Context.Set<TEntity>().Update(entity);
     }
-    
+
     public virtual void Update(ICollection<TEntity> entities)
     {
         Context.Set<TEntity>().UpdateRange(entities);
