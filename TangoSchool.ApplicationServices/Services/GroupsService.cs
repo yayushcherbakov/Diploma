@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TangoSchool.ApplicationServices.Constants;
+using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Mappers;
+using TangoSchool.ApplicationServices.Models.Classrooms;
 using TangoSchool.ApplicationServices.Models.Groups;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
+using TangoSchool.DataAccess.Entities;
 using TangoSchool.DataAccess.Repositories.Interfaces;
 
 namespace TangoSchool.ApplicationServices.Services;
@@ -74,5 +77,35 @@ internal class GroupsService : IGroupsService
         }
 
         return group;
+    }
+
+    public async Task<GetAllGroupsResponse> GetAllGroups
+    (
+        GetAllGroupsPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        IQueryable<Group> query = _readOnlyTangoSchoolDbContext.Groups;
+
+        if (!payload.IncludeTerminated)
+        {
+            query = query.Where(x => !x.Terminated);
+        }
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var result = await query
+            .Paginate(payload.ItemsPerPage, payload.Page)
+            .Select(x => new GetAllGroupsResponseItem(
+                x.Id,
+                x.Name,
+                x.Description,
+                x.Level,
+                x.MaxStudentCapacity,
+                x.TeacherId,
+                x.Terminated))
+            .ToListAsync(cancellationToken);
+
+        return new(result, totalCount);
     }
 }

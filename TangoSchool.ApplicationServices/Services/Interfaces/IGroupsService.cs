@@ -21,4 +21,10 @@ public interface IGroupsService
         Guid id,
         CancellationToken cancellationToken
     );
+
+    Task<GetAllGroupsResponse> GetAllGroups
+    (
+        GetAllGroupsPayload payload,
+        CancellationToken cancellationToken
+    );
 }

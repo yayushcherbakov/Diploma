@@ -50,4 +50,14 @@ public class GroupsController : ControllerBase
     {
         return Ok(await _groupsService.GetGroup(id, cancellationToken));
     }
+    
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<GetAllGroupsResponse>> GetAllGroups
+    (
+        [FromQuery] GetAllGroupsPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        return Ok(await _groupsService.GetAllGroups(payload, cancellationToken));
+    }
 }
