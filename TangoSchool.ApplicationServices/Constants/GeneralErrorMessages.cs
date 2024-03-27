@@ -11,6 +11,7 @@ public static class GeneralErrorMessages
     public const string MailSendingFailed = "Mail sending failed";
     public const string ClassroomWasNotFound = "Classroom was not found";
     public const string SubscriptionWasNotFound = "Subscription was not found";
+    public const string SubscriptionTemplateWasNotFound = "Subscription template was not found";
     public const string GroupWasNotFound = "Group was not found";
     public const string LessonWasNotFound = "Lesson was not found";
     public const string LessonRequestWasNotFound = "Lesson request was not found";
