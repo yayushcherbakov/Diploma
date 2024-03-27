@@ -21,4 +21,10 @@ public interface ISubscriptionTemplatesService
         Guid id,
         CancellationToken cancellationToken
     );
+
+    Task<GetAllSubscriptionTemplatesResponse> GetAllSubscriptionTemplates
+    (
+        GetAllSubscriptionTemplatesPayload payload,
+        CancellationToken cancellationToken
+    );
 }

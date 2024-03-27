@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TangoSchool.ApplicationServices.Constants;
+using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Mappers;
+using TangoSchool.ApplicationServices.Models.Classrooms;
 using TangoSchool.ApplicationServices.Models.SubscriptionTemplates;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
+using TangoSchool.DataAccess.Entities;
 using TangoSchool.DataAccess.Repositories.Interfaces;
 
 namespace TangoSchool.ApplicationServices.Services;
@@ -83,5 +86,38 @@ internal class SubscriptionTemplatesService : ISubscriptionTemplatesService
         }
 
         return subscriptionTemplate;
+    }
+
+    public async Task<GetAllSubscriptionTemplatesResponse> GetAllSubscriptionTemplates
+    (
+        GetAllSubscriptionTemplatesPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        IQueryable<SubscriptionTemplate> query = _readOnlyTangoSchoolDbContext.SubscriptionTemplates;
+
+        if (!payload.Active)
+        {
+            query = query.Where(x => !x.Active);
+        }
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var result = await query
+            .Paginate(payload.ItemsPerPage, payload.Page)
+            .Select(x => new GetAllSubscriptionTemplatesResponseItem
+            (
+                x.Id,
+                x.Name,
+                x.Description,
+                x.LessonType,
+                x.LessonCount,
+                x.ExpirationDate,
+                x.ExpirationDayCount,
+                x.Price,
+                x.Active))
+            .ToListAsync(cancellationToken);
+
+        return new(result, totalCount);
     }
 }
