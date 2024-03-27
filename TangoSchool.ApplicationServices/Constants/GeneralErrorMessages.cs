@@ -13,5 +13,6 @@ public static class GeneralErrorMessages
     public const string SubscriptionWasNotFound = "Subscription was not found";
     public const string GroupWasNotFound = "Group was not found";
     public const string LessonWasNotFound = "Lesson was not found";
+    public const string LessonRequestWasNotFound = "Lesson request was not found";
     public const string StartTimeMustBeLessThanFinishTime = "StartTime must be less than FinishTime";
 }
