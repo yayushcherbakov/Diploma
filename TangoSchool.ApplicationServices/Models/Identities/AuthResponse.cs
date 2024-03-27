@@ -1,4 +1,4 @@
-namespace TangoSchool.ApplicationServices.Models.Identities;
+﻿namespace TangoSchool.ApplicationServices.Models.Identities;
 
 public class AuthResponse
 {

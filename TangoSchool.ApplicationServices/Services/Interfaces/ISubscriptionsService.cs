@@ -1,5 +1,4 @@
-﻿using TangoSchool.ApplicationServices.Models.Classrooms;
-using TangoSchool.ApplicationServices.Models.Subscriptions;
+﻿using TangoSchool.ApplicationServices.Models.Subscriptions;
 
 namespace TangoSchool.ApplicationServices.Services.Interfaces;
 

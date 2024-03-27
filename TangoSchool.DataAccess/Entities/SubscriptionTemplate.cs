@@ -15,7 +15,7 @@ public class SubscriptionTemplate
     public int LessonCount { get; set; }
 
     public DateTimeOffset? ExpirationDate { get; set; }
-    
+
     public int? ExpirationDayCount { get; set; }
 
     public decimal Price { get; set; }

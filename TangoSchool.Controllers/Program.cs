@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -79,7 +79,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
 
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new() {Title = "Tango school management service", Version = "v1"});
+    option.SwaggerDoc("v1", new() { Title = "Tango school management service", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new()
     {
         In = ParameterLocation.Header,
@@ -114,7 +114,7 @@ using (var scope = app.Services.CreateScope())
     await dbContext.Migrate(CancellationToken.None);
 
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-    string[] roleNames = {RoleConstants.Administrator, RoleConstants.Teacher, RoleConstants.Student};
+    string[] roleNames = { RoleConstants.Administrator, RoleConstants.Teacher, RoleConstants.Student };
 
     foreach (var roleName in roleNames)
     {

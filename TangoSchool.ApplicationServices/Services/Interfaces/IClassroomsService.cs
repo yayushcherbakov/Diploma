@@ -27,7 +27,7 @@ public interface IClassroomsService
         Guid id,
         CancellationToken cancellationToken
     );
-    
+
     Task RestoreClassroom
     (
         Guid id,

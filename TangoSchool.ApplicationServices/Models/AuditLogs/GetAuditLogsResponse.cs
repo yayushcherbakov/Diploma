@@ -2,6 +2,6 @@
 
 public record GetAuditLogsResponse
 (
-    List<AuditLogModel> Logs, 
+    List<AuditLogModel> Logs,
     int TotalCount
 );

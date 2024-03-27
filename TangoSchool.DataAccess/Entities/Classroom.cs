@@ -9,6 +9,6 @@ public class Classroom
     public string? Description { get; set; }
 
     public bool Terminated { get; set; }
-    
+
     public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 }

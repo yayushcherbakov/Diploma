@@ -9,7 +9,7 @@ public class ApplicationUser : IdentityUser<Guid>
     public string? MiddleName { get; set; }
 
     public string? Photo { get; set; }
-    
+
     public string? Description { get; set; }
 
     public string? RefreshToken { get; set; }

@@ -2,6 +2,7 @@
 
 namespace TangoSchool.DataAccess.Repositories.Interfaces;
 
-public interface ISubscriptionsTemplatesRepository : IRepositoryBase<SubscriptionTemplate>
+public interface ILessonRequestsRepository  : IRepositoryBase<LessonRequest>
 {
+    
 }
