@@ -44,7 +44,7 @@ internal class EmailSender : IEmailSender
         {
             await client.SendMailAsync(message, cancellationToken);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             throw new ApplicationException(GeneralErrorMessages.MailSendingFailed);
         }

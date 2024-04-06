@@ -21,4 +21,11 @@ public interface ILessonRequestsService
         Guid id,
         CancellationToken cancellationToken
     );
+    
+    Task<GetLessonRequestByTeacherResponse> GetLessonRequestsByTeacher
+    (
+        Guid teacherId,
+        GetLessonRequestByTeacherPayload payload,
+        CancellationToken cancellationToken
+    );
 }
