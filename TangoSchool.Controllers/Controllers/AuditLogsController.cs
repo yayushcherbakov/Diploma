@@ -19,7 +19,7 @@ public class AuditLogsController : ControllerBase
         _logService = logService;
     }
 
-    [HttpGet("GetAuditLogs")]
+    [HttpGet("All")]
     public async Task<ActionResult<GetAuditLogsResponse>> GetAuditLogs
     (
         [FromQuery] GetAuditLogsPayload payload,
@@ -29,7 +29,7 @@ public class AuditLogsController : ControllerBase
         return await _logService.GetAuditLogs(payload, cancellationToken);
     }
 
-    [HttpGet("GetAuditLogsByUserId")]
+    [HttpGet("ByUserId")]
     public async Task<ActionResult<GetAuditLogsResponse>> GetAuditLogsByIdentityId
     (
         [FromQuery] GetAuditLogsByIdentityIdPayload payload,

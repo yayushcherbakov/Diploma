@@ -19,6 +19,15 @@ public class GroupsController : ControllerBase
         _groupsService = groupsService;
     }
 
+    [HttpPost("Metadata")]
+    public async Task<ActionResult<GroupsMetadata>> GetGroupsMetadata
+    (
+        CancellationToken cancellationToken
+    )
+    {
+        return Ok(await _groupsService.GetGroupsMetadata(cancellationToken));
+    }
+    
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateGroup
     (
@@ -32,7 +41,7 @@ public class GroupsController : ControllerBase
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateGroup
     (
-        [FromBody] UpdateGroup payload,
+        [FromBody] UpdateGroupPayload payload,
         CancellationToken cancellationToken
     )
     {
@@ -50,7 +59,7 @@ public class GroupsController : ControllerBase
     {
         return Ok(await _groupsService.GetGroup(id, cancellationToken));
     }
-    
+
     [HttpGet("All")]
     public async Task<ActionResult<GetAllGroupsResponse>> GetAllGroups
     (
@@ -60,7 +69,7 @@ public class GroupsController : ControllerBase
     {
         return Ok(await _groupsService.GetAllGroups(payload, cancellationToken));
     }
-    
+
     [HttpGet("Headers")]
     public async Task<ActionResult<List<GroupHeader>>> GetGroupHeaders
     (
@@ -68,5 +77,55 @@ public class GroupsController : ControllerBase
     )
     {
         return Ok(await _groupsService.GetGroupHeaders(cancellationToken));
+    }
+
+    [HttpPost("{id:guid}/Terminate")]
+    public async Task<ActionResult> TerminateGroup
+    (
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken
+    )
+    {
+        await _groupsService.TerminateGroup(id, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("{id:guid}/Restore")]
+    public async Task<ActionResult> RestoreGroup
+    (
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken
+    )
+    {
+        await _groupsService.RestoreGroup(id, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("{id:guid}/Students/Add/{studentId:guid}")]
+    public async Task<ActionResult> AddStudentToGroup
+    (
+        [FromRoute] Guid id,
+        [FromRoute] Guid studentId,
+        CancellationToken cancellationToken
+    )
+    {
+        await _groupsService.AddStudentToGroup(id, studentId, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("{id:guid}/Students/Remove/{studentId:guid}")]
+    public async Task<ActionResult> RemoveStudentFromGroup
+    (
+        [FromRoute] Guid id,
+        [FromRoute] Guid studentId,
+        CancellationToken cancellationToken
+    )
+    {
+        await _groupsService.RemoveStudentFromGroup(id, studentId, cancellationToken);
+
+        return Ok();
     }
 }

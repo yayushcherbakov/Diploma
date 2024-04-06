@@ -15,4 +15,6 @@ public class UserInformation
     public string? PhoneNumber { get; set; }
 
     public string? Photo { get; set; }
+    
+    public string? Role { get; set; }
 }

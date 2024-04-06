@@ -1,15 +1,10 @@
 ﻿using TangoSchool.ApplicationServices.Models.Students;
 using TangoSchool.ApplicationServices.Models.Teachers;
-using TangoSchool.DataAccess.Enums;
 
 namespace TangoSchool.ApplicationServices.Models.Groups;
 
-public record GetGroupResponse
+public record GroupsMetadata
 (
-    string Name,
-    string? Description,
-    DanceProficiencyLevel Level,
-    int MaxStudentCapacity,
-    TeacherHeader Teacher,
+    List<TeacherHeader> Teachers,
     List<StudentHeader> Students
 );

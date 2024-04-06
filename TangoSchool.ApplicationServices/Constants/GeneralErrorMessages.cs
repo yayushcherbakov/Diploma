@@ -13,9 +13,12 @@ public static class GeneralErrorMessages
     public const string SubscriptionWasNotFound = "Subscription was not found";
     public const string SubscriptionTemplateWasNotFound = "Subscription template was not found";
     public const string GroupWasNotFound = "Group was not found";
+    public const string MaxStudentCapacityReached = "Max student capacity reached";
+    public const string StudentGroupWasNotFound = "Student group was not found";
     public const string LessonWasNotFound = "Lesson was not found";
     public const string LessonRequestWasNotFound = "Lesson request was not found";
     public const string StartTimeMustBeLessThanFinishTime = "StartTime must be less than FinishTime";
     public const string TimePeriodIsNotAvailable = "Time period is not available";
     public const string InvalidLessonData = "Invalid lesson data";
+    public const string StudentHasAlreadyAddedToGroup = "Student has already added to group";
 }

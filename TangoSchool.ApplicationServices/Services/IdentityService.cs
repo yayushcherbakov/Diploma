@@ -248,16 +248,33 @@ internal class IdentityService : IIdentityService
     {
         var usersInformation = await _readOnlyTangoSchoolDbContext
             .Users
+            .Join
+            (
+                _readOnlyTangoSchoolDbContext
+                    .UserRoles,
+                x => x.Id,
+                x => x.UserId,
+                (x, y) => new {User = x, y.RoleId}
+            )
+            .Join
+            (
+                _readOnlyTangoSchoolDbContext
+                    .Roles,
+                x => x.RoleId,
+                x => x.Id,
+                (x, y) => new {x.User, RoleName = y.Name}
+            )
             .Paginate(payload.ItemsPerPage, payload.Page)
             .Select(x => new UserInformation()
             {
-                UserId = x.Id,
-                Email = x.Email!,
-                FirstName = x.FirstName,
-                MiddleName = x.MiddleName,
-                LastName = x.LastName,
-                PhoneNumber = x.PhoneNumber,
-                Photo = x.Photo
+                UserId = x.User.Id,
+                Email = x.User.Email!,
+                FirstName = x.User.FirstName,
+                MiddleName = x.User.MiddleName,
+                LastName = x.User.LastName,
+                PhoneNumber = x.User.PhoneNumber,
+                Photo = x.User.Photo,
+                Role = x.RoleName
             })
             .ToListAsync(cancellationToken);
 

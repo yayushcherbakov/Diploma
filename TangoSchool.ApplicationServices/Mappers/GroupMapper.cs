@@ -13,7 +13,14 @@ internal static class GroupMapper
             Description = model.Description,
             Level = model.Level,
             MaxStudentCapacity = model.MaxStudentCapacity,
-            TeacherId = model.TeacherId
+            TeacherId = model.TeacherId,
+            JoinedStudentGroups = model.studentIds
+                .Select(x => new StudentGroup()
+                {
+                    StudentId = x,
+                    JoinDate = DateTimeOffset.UtcNow
+                })
+                .ToList()
         };
     }
 }

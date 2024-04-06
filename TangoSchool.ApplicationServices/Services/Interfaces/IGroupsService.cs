@@ -4,6 +4,11 @@ namespace TangoSchool.ApplicationServices.Services.Interfaces;
 
 public interface IGroupsService
 {
+    Task<GroupsMetadata> GetGroupsMetadata
+    (
+        CancellationToken cancellationToken
+    );
+    
     Task<Guid> CreateGroup
     (
         CreateGroupPayload payload,
@@ -12,7 +17,7 @@ public interface IGroupsService
 
     Task UpdateGroup
     (
-        UpdateGroup payload,
+        UpdateGroupPayload payload,
         CancellationToken cancellationToken
     );
 
@@ -32,4 +37,19 @@ public interface IGroupsService
     (
         CancellationToken cancellationToken
     );
+    
+    Task TerminateGroup
+    (
+        Guid id,
+        CancellationToken cancellationToken
+    );
+
+    Task RestoreGroup
+    (
+        Guid id,
+        CancellationToken cancellationToken
+    );
+
+    Task AddStudentToGroup(Guid groupId, Guid studentId, CancellationToken cancellationToken);
+    Task RemoveStudentFromGroup(Guid groupId, Guid studentId, CancellationToken cancellationToken);
 }

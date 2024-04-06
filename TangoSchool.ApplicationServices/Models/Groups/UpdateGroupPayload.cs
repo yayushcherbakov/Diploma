@@ -2,7 +2,7 @@
 
 namespace TangoSchool.ApplicationServices.Models.Groups;
 
-public record UpdateGroup
+public record UpdateGroupPayload
 (
     Guid Id,
     string Name,

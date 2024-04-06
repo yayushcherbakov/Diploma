@@ -8,5 +8,6 @@ public record CreateGroupPayload
     string? Description,
     DanceProficiencyLevel Level,
     int MaxStudentCapacity,
-    Guid TeacherId
+    Guid TeacherId,
+    List<Guid> studentIds
 );

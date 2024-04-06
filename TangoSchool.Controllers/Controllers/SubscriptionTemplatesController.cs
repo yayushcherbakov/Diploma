@@ -52,7 +52,7 @@ public class SubscriptionTemplatesController : ControllerBase
         return Ok(await _subscriptionTemplatesService.GetSubscriptionTemplate(id, cancellationToken));
     }
     
-    [HttpGet("GetAll")]
+    [HttpGet("All")]
     public async Task<ActionResult<GetAllSubscriptionTemplatesResponse>> GetAllSubscriptionTemplates
     (
         [FromQuery] GetAllSubscriptionTemplatesPayload payload,

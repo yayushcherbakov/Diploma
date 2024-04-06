@@ -1,4 +1,5 @@
-﻿using TangoSchool.DataAccess.Enums;
+﻿using TangoSchool.ApplicationServices.Models.Teachers;
+using TangoSchool.DataAccess.Enums;
 
 namespace TangoSchool.ApplicationServices.Models.Groups;
 
@@ -8,7 +9,8 @@ public record GetAllGroupsResponseItem
     string Name,
     string? Description,
     DanceProficiencyLevel Level,
+    int StudentCapacity,
     int MaxStudentCapacity,
-    Guid TeacherId,
+    TeacherHeader Teacher,
     bool Terminated
 );

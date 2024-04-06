@@ -33,7 +33,7 @@ public class IdentitiesController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("GetUserInformation")]
+    [HttpGet("UserInformation")]
     public async Task<ActionResult<UserInformationWithRoles>> GetUserInformation
     (
         CancellationToken cancellationToken

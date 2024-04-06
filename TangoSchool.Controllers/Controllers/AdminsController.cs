@@ -19,7 +19,7 @@ public class AdminsController : ControllerBase
         _identityService = identityService;
     }
 
-    [HttpGet("GetUserInformation/{id:guid}")]
+    [HttpGet("UserInformation/{id:guid}")]
     public async Task<ActionResult<UserInformationWithRoles>> GetUserInformation
     (
         [FromRoute] Guid id,
@@ -29,7 +29,7 @@ public class AdminsController : ControllerBase
         return await _identityService.GetUserInformation(id, cancellationToken);
     }
 
-    [HttpGet("GetAllUsers")]
+    [HttpGet("AllUsers")]
     public async Task<ActionResult<GetAllUsersResponse>> GetAllUsers
     (
         [FromQuery] GetAllUsersPayload payload,
