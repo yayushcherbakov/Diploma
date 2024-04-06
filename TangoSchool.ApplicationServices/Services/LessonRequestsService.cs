@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TangoSchool.ApplicationServices.Constants;
+using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Mappers;
 using TangoSchool.ApplicationServices.Models.LessonRequests;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
+using TangoSchool.DataAccess.Entities;
 using TangoSchool.DataAccess.Repositories.Interfaces;
 
 namespace TangoSchool.ApplicationServices.Services;
@@ -74,5 +76,32 @@ internal class LessonRequestsService : ILessonRequestsService
         }
 
         return lessonRequest;
+    }
+
+    public async Task<GetLessonRequestByTeacherResponse> GetLessonRequestsByTeacher
+    (
+        Guid teacherId,
+        GetLessonRequestByTeacherPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        IQueryable<LessonRequest> query = _readOnlyTangoSchoolDbContext.LessonRequests;
+
+        query = query.Where(x => x.TeacherId == teacherId);
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var result = await query
+            .Paginate(payload.ItemsPerPage, payload.Page)
+            .Select(x => new GetLessonRequestByTeacherResponseItem(
+                x.Description,
+                x.StartTime,
+                x.FinishTime,
+                x.StudentId,
+                x.TeacherId
+            ))
+            .ToListAsync(cancellationToken);
+
+        return new(result, totalCount);
     }
 }

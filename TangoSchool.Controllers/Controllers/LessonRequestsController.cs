@@ -50,4 +50,15 @@ public class LessonRequestsController : ControllerBase
     {
         return Ok(await _lessonRequestsService.GetLessonRequest(id, cancellationToken));
     }
+    
+    [HttpGet("Teachers/{teacherId:guid}/All")]
+    public async Task<ActionResult<GetLessonRequestByTeacherResponse>> GetLessonRequestsByTeacher
+    (
+        [FromRoute ] Guid teacherId,
+        [FromQuery] GetLessonRequestByTeacherPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        return Ok(await _lessonRequestsService.GetLessonRequestsByTeacher(teacherId, payload, cancellationToken));
+    }
 }
