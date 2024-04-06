@@ -87,7 +87,9 @@ internal class LessonRequestsService : ILessonRequestsService
     {
         IQueryable<LessonRequest> query = _readOnlyTangoSchoolDbContext.LessonRequests;
 
-        query = query.Where(x => x.TeacherId == teacherId);
+        query = query
+            .FilterActive()
+            .Where(x => x.TeacherId == teacherId);
 
         var totalCount = await query.CountAsync(cancellationToken);
 
