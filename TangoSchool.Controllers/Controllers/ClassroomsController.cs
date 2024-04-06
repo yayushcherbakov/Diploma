@@ -75,7 +75,7 @@ public class ClassroomsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("GetAll")]
+    [HttpGet("All")]
     public async Task<ActionResult<GetAllClassroomsResponse>> GetAllClassrooms
     (
         [FromQuery] GetAllClassroomsPayload payload,
@@ -85,13 +85,22 @@ public class ClassroomsController : ControllerBase
         return Ok(await _classroomsService.GetAllClassrooms(payload, cancellationToken));
     }
 
-    [HttpGet("GetAvailableClassrooms")]
-    public async Task<ActionResult<List<AvailableClassroom>>> GetAvailableClassrooms
+    [HttpGet("AvailableClassrooms")]
+    public async Task<ActionResult<List<ClassroomHeader>>> GetAvailableClassrooms
     (
         [FromQuery] GetAvailableClassroomsPayload payload,
         CancellationToken cancellationToken
     )
     {
         return Ok(await _classroomsService.GetAvailableClassrooms(payload, cancellationToken));
+    }
+
+    [HttpGet("Headers")]
+    public async Task<ActionResult<List<ClassroomHeader>>> GetClassroomHeaders
+    (
+        CancellationToken cancellationToken
+    )
+    {
+        return Ok(await _classroomsService.GetClassroomHeaders(cancellationToken));
     }
 }

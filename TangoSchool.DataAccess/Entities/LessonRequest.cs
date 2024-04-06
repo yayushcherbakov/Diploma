@@ -1,6 +1,8 @@
-﻿namespace TangoSchool.DataAccess.Entities;
+﻿using TangoSchool.DataAccess.Entities.Interfaces;
 
-public class LessonRequest
+namespace TangoSchool.DataAccess.Entities;
+
+public class LessonRequest : IPersistent
 {
     public Guid Id { get; set; }
 

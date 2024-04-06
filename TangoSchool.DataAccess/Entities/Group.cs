@@ -1,8 +1,9 @@
-﻿using TangoSchool.DataAccess.Enums;
+﻿using TangoSchool.DataAccess.Entities.Interfaces;
+using TangoSchool.DataAccess.Enums;
 
 namespace TangoSchool.DataAccess.Entities;
 
-public class Group
+public class Group : IPersistent
 {
     public Guid Id { get; set; }
 

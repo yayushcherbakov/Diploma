@@ -16,4 +16,6 @@ public static class GeneralErrorMessages
     public const string LessonWasNotFound = "Lesson was not found";
     public const string LessonRequestWasNotFound = "Lesson request was not found";
     public const string StartTimeMustBeLessThanFinishTime = "StartTime must be less than FinishTime";
+    public const string TimePeriodIsNotAvailable = "Time period is not available";
+    public const string InvalidLessonData = "Invalid lesson data";
 }

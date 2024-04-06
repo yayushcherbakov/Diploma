@@ -1,8 +1,12 @@
-﻿namespace TangoSchool.DataAccess.Entities;
+﻿using TangoSchool.DataAccess.Entities.Interfaces;
 
-public class Teacher
+namespace TangoSchool.DataAccess.Entities;
+
+public class Teacher : IPersistent
 {
     public Guid Id { get; set; }
+
+    public bool Terminated { get; set; }
 
     public Guid ApplicationUserId { get; set; }
 

@@ -1,10 +1,13 @@
-﻿using TangoSchool.DataAccess.Enums;
+﻿using TangoSchool.DataAccess.Entities.Interfaces;
+using TangoSchool.DataAccess.Enums;
 
 namespace TangoSchool.DataAccess.Entities;
 
-public class Student
+public class Student : IPersistent
 {
     public Guid Id { get; set; }
+
+    public bool Terminated { get; set; }
 
     public Guid ApplicationUserId { get; set; }
 

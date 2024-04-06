@@ -40,9 +40,14 @@ public interface IClassroomsService
         CancellationToken cancellationToken
     );
 
-    Task<List<AvailableClassroom>> GetAvailableClassrooms
+    Task<List<ClassroomHeader>> GetAvailableClassrooms
     (
         GetAvailableClassroomsPayload payload,
+        CancellationToken cancellationToken
+    );
+    
+    Task<List<ClassroomHeader>> GetClassroomHeaders
+    (
         CancellationToken cancellationToken
     );
 }

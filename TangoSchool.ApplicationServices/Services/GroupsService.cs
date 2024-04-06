@@ -2,7 +2,6 @@
 using TangoSchool.ApplicationServices.Constants;
 using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Mappers;
-using TangoSchool.ApplicationServices.Models.Classrooms;
 using TangoSchool.ApplicationServices.Models.Groups;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
@@ -107,5 +106,21 @@ internal class GroupsService : IGroupsService
             .ToListAsync(cancellationToken);
 
         return new(result, totalCount);
+    }
+    
+    public async Task<List<GroupHeader>> GetGroupHeaders
+    (
+        CancellationToken cancellationToken
+    )
+    {
+        return await _readOnlyTangoSchoolDbContext
+            .Groups
+            .FilterActive()
+            .Select(x => new GroupHeader
+            (
+                x.Id,
+                x.Name
+            ))
+            .ToListAsync(cancellationToken);
     }
 }

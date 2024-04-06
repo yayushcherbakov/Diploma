@@ -118,7 +118,7 @@ internal class ClassroomsService : IClassroomsService
 
         if (!payload.IncludeTerminated)
         {
-            query = query.Where(x => !x.Terminated);
+            query = query.FilterActive();
         }
 
         var totalCount = await query.CountAsync(cancellationToken);
@@ -131,7 +131,7 @@ internal class ClassroomsService : IClassroomsService
         return new(result, totalCount);
     }
 
-    public async Task<List<AvailableClassroom>> GetAvailableClassrooms
+    public async Task<List<ClassroomHeader>> GetAvailableClassrooms
     (
         GetAvailableClassroomsPayload payload,
         CancellationToken cancellationToken
@@ -150,8 +150,21 @@ internal class ClassroomsService : IClassroomsService
 
         return await _readOnlyTangoSchoolDbContext
             .Classrooms
-            .Where(x => !x.Terminated && !notAvailableClassroomsQuery.Contains(x.Id))
-            .Select(x => new AvailableClassroom(x.Id, x.Name))
+            .FilterActive()
+            .Where(x => !notAvailableClassroomsQuery.Contains(x.Id))
+            .Select(x => new ClassroomHeader(x.Id, x.Name))
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<ClassroomHeader>> GetClassroomHeaders
+    (
+        CancellationToken cancellationToken
+    )
+    {
+        return await _readOnlyTangoSchoolDbContext
+            .Classrooms
+            .FilterActive()
+            .Select(x => new ClassroomHeader(x.Id, x.Name))
             .ToListAsync(cancellationToken);
     }
 }

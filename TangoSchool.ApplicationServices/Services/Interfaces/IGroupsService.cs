@@ -27,4 +27,9 @@ public interface IGroupsService
         GetAllGroupsPayload payload,
         CancellationToken cancellationToken
     );
+
+    Task<List<GroupHeader>> GetGroupHeaders
+    (
+        CancellationToken cancellationToken
+    );
 }
