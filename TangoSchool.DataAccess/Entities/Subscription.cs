@@ -26,5 +26,5 @@ public class Subscription
 
     public SubscriptionTemplate? SubscriptionTemplate { get; set; }
 
-    public ICollection<Lesson> AttendedLessons { get; set; } = new List<Lesson>();
+    public ICollection<LessonSubscription> AttendedLessons { get; set; } = new List<LessonSubscription>();
 }

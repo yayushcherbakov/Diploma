@@ -9,4 +9,9 @@ internal class LessonsRepository : BaseRepository<Lesson>, ILessonsRepository
     public LessonsRepository(TangoSchoolDbContext tangoSchoolDbContext) : base(tangoSchoolDbContext)
     {
     }
+
+    public void AddLessonSubscriptions(IReadOnlyCollection<LessonSubscription> lessonSubscriptions)
+    {
+        Context.LessonSubscriptions.AddRange(lessonSubscriptions);
+    }
 }

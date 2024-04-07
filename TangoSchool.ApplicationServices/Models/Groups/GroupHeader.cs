@@ -1,3 +1,5 @@
-﻿namespace TangoSchool.ApplicationServices.Models.Groups;
+﻿using TangoSchool.DataAccess.Enums;
 
-public record GroupHeader(Guid Id, string Name);
+namespace TangoSchool.ApplicationServices.Models.Groups;
+
+public record GroupHeader(Guid Id, string Name, int StudentCount, DanceProficiencyLevel Level);

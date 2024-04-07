@@ -184,7 +184,9 @@ internal class GroupsService : IGroupsService
             .Select(x => new GroupHeader
             (
                 x.Id,
-                x.Name
+                x.Name,
+                x.JoinedStudentGroups.Count,
+                x.Level
             ))
             .ToListAsync(cancellationToken);
     }

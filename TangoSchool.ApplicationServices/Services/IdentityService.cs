@@ -150,7 +150,7 @@ internal class IdentityService : IIdentityService
                     user.FirstName,
                     userPayload.Password
                 ),
-                user.Email!
+                user.Email
             );
 
             await _emailSender.SendEmail(email, cancellationToken);

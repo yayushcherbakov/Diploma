@@ -29,6 +29,8 @@ internal class TangoSchoolDbContext : IdentityDbContext<ApplicationUser, Identit
     public DbSet<StudentGroup> StudentGroups { get; set; } = null!;
 
     public DbSet<Subscription> Subscriptions { get; set; } = null!;
+    
+    public DbSet<LessonSubscription> LessonSubscriptions { get; set; } = null!;
 
     public DbSet<SubscriptionTemplate> SubscriptionTemplates { get; set; } = null!;
 

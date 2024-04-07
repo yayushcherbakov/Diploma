@@ -28,6 +28,8 @@ public interface IReadOnlyTangoSchoolDbContext
 
     public DbSet<Subscription> Subscriptions { get; }
 
+    public DbSet<LessonSubscription> LessonSubscriptions { get; }
+
     public DbSet<SubscriptionTemplate> SubscriptionTemplates { get; }
 
     public DbSet<Teacher> Teachers { get; }

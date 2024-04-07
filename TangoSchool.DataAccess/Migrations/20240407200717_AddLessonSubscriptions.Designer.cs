@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TangoSchool.DataAccess.DatabaseContexts;
@@ -11,9 +12,11 @@ using TangoSchool.DataAccess.DatabaseContexts;
 namespace TangoSchool.DataAccess.Migrations
 {
     [DbContext(typeof(TangoSchoolDbContext))]
-    partial class TangoSchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240407200717_AddLessonSubscriptions")]
+    partial class AddLessonSubscriptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -414,7 +417,7 @@ namespace TangoSchool.DataAccess.Migrations
                     b.ToTable("LessonRequests");
                 });
 
-            modelBuilder.Entity("TangoSchool.DataAccess.Entities.LessonSubscription", b =>
+            modelBuilder.Entity("TangoSchool.DataAccess.Entities.LessonSubscriptions", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -710,7 +713,7 @@ namespace TangoSchool.DataAccess.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("TangoSchool.DataAccess.Entities.LessonSubscription", b =>
+            modelBuilder.Entity("TangoSchool.DataAccess.Entities.LessonSubscriptions", b =>
                 {
                     b.HasOne("TangoSchool.DataAccess.Entities.Lesson", "Lesson")
                         .WithMany("UsedSubscriptions")

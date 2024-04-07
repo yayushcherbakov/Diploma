@@ -35,5 +35,5 @@ public class Lesson : IPersistent
 
     public bool Terminated { get; set; }
 
-    public ICollection<Subscription> UsedSubscriptions { get; set; } = new List<Subscription>();
+    public ICollection<LessonSubscription> UsedSubscriptions { get; set; } = new List<LessonSubscription>();
 }

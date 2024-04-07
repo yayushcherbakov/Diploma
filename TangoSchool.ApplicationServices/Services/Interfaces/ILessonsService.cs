@@ -4,6 +4,11 @@ namespace TangoSchool.ApplicationServices.Services.Interfaces;
 
 public interface ILessonsService
 {
+    Task<LessonsMetadata> GetLessonsMetadata
+    (
+        CancellationToken cancellationToken
+    );
+
     Task<Guid> CreateLesson
     (
         CreateLessonPayload payload,
@@ -19,6 +24,33 @@ public interface ILessonsService
     Task<GetLessonResponse> GetLesson
     (
         Guid id,
+        CancellationToken cancellationToken
+    );
+
+    Task<GetAllLessonsResponse> GetAllLessons
+    (
+        GetAllLessonsPayload payload,
+        CancellationToken cancellationToken
+    );
+
+    Task<GetAllLessonsResponse> GetAllLessonsByStudent
+    (
+        Guid userId,
+        GetAllLessonsPayload payload,
+        CancellationToken cancellationToken
+    );
+
+    Task<GetAllLessonsResponse> GetAllLessonsByTeacher
+    (
+        Guid userId,
+        GetAllLessonsPayload payload,
+        CancellationToken cancellationToken
+    );
+
+    Task SetLessonAttendance
+    (
+        Guid id,
+        SetLessonAttendancePayload payload,
         CancellationToken cancellationToken
     );
 }

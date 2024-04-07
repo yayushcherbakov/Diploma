@@ -1,16 +1,21 @@
-﻿using TangoSchool.DataAccess.Enums;
+﻿using TangoSchool.ApplicationServices.Models.Classrooms;
+using TangoSchool.ApplicationServices.Models.Groups;
+using TangoSchool.ApplicationServices.Models.Students;
+using TangoSchool.ApplicationServices.Models.Teachers;
+using TangoSchool.DataAccess.Enums;
 
 namespace TangoSchool.ApplicationServices.Models.Lessons;
 
 public record GetLessonResponse
 (
+    Guid Id,
     string Name,
     string? Description,
     LessonType LessonType,
     DateTimeOffset StartTime,
     DateTimeOffset FinishTime,
-    Guid ClassroomId,
-    Guid TeacherId,
-    Guid? StudentId,
-    Guid? GroupId
+    ClassroomHeader Classroom,
+    TeacherHeader Teacher,
+    StudentHeader? Student,
+    GroupHeader? Group
 );

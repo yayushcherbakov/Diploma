@@ -24,4 +24,5 @@ public static class GeneralErrorMessages
     public const string TimePeriodIsNotAvailable = "Time period is not available";
     public const string InvalidLessonData = "Invalid lesson data";
     public const string StudentHasAlreadyAddedToGroup = "Student has already added to group";
+    public const string SomeStudentsDoNotHaveSubscription = "Some students do not have subscription: ";
 }
