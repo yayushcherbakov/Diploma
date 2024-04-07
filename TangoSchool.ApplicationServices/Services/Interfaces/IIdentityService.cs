@@ -16,19 +16,19 @@ public interface IIdentityService
         CancellationToken cancellationToken
     );
 
-    public Task<AuthResponse> RegisterStudent
+    public Task RegisterStudent
     (
         RegisterStudentPayload userPayload,
         CancellationToken cancellationToken
     );
 
-    public Task<AuthResponse> RegisterAdministrator
+    public Task RegisterAdministrator
     (
         RegisterAdministratorPayload userPayload,
         CancellationToken cancellationToken
     );
 
-    public Task<AuthResponse> RegisterTeacher
+    public Task RegisterTeacher
     (
         RegisterTeacherPayload userPayload,
         CancellationToken cancellationToken

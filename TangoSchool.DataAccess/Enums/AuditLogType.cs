@@ -7,7 +7,6 @@ public enum AuditLogType
     TokenRefresh,
     PasswordChanged,
     UserUpdated,
-    UserRolesUpdated,
     TokenRefreshRevoked,
     ResetPasswordRequest,
     ResetPasswordConfirm

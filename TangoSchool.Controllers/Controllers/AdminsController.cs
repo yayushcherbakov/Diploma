@@ -41,13 +41,15 @@ public class AdminsController : ControllerBase
 
 
     [HttpPost("RegisterTeacher")]
-    public async Task<ActionResult<AuthResponse>> RegisterTeacher
+    public async Task<ActionResult> RegisterTeacher
     (
         [FromBody] RegisterTeacherPayload userPayload,
         CancellationToken cancellationToken
     )
     {
-        return await _identityService.RegisterTeacher(userPayload, cancellationToken);
+        await _identityService.RegisterTeacher(userPayload, cancellationToken);
+
+        return Ok();
     }
 
     [HttpPost("RegisterStudent")]
@@ -57,7 +59,9 @@ public class AdminsController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        return await _identityService.RegisterStudent(userPayload, cancellationToken);
+        await _identityService.RegisterStudent(userPayload, cancellationToken);
+        
+        return Ok();
     }
 
     [HttpPost("RegisterAdministrator")]
@@ -67,7 +71,9 @@ public class AdminsController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        return await _identityService.RegisterAdministrator(userPayload, cancellationToken);
+        await _identityService.RegisterAdministrator(userPayload, cancellationToken);
+        
+        return Ok();
     }
 
     [HttpPost("Delete/{id:guid}")]

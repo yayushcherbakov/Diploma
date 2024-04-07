@@ -119,7 +119,10 @@ internal class IdentityService : IIdentityService
     }
 
     private async Task<ApplicationUser> RegisterUser
-        (RegisterUserPayload userPayload, CancellationToken cancellationToken)
+    (
+        RegisterUserPayload userPayload,
+        CancellationToken cancellationToken
+    )
     {
         var user = new ApplicationUser
         {
@@ -136,15 +139,29 @@ internal class IdentityService : IIdentityService
 
         ProcessIdentityResult(result);
 
-        var findUser = await _readOnlyTangoSchoolDbContext.Users.FirstOrDefaultAsync(
-            x => x.Email == userPayload.Email,
-            cancellationToken);
-
-        if (findUser is null)
+        try
         {
-            throw new ApplicationException(GeneralErrorMessages.UserWasNotFound);
-        }
+            var email = new SendEmailPayload
+            (
+                EmailConstants.SuccessRegistration.Subject,
+                string.Format
+                (
+                    EmailConstants.SuccessRegistration.Body,
+                    user.FirstName,
+                    userPayload.Password
+                ),
+                user.Email!
+            );
 
+            await _emailSender.SendEmail(email, cancellationToken);
+        }
+        catch (Exception)
+        {
+            await _userManager.DeleteAsync(user);
+
+            throw;
+        }
+        
         var auditLog = new AuditLog()
         {
             ApplicationUser = user,
@@ -159,13 +176,27 @@ internal class IdentityService : IIdentityService
         return user;
     }
 
-    public async Task<AuthResponse> RegisterStudent
+    public async Task RegisterStudent
     (
         RegisterStudentPayload userPayload,
         CancellationToken cancellationToken
     )
     {
-        var user = await RegisterUser(userPayload, cancellationToken);
+        var password = GeneratePassword(PasswordConstants.DefaultPasswordLength);
+
+        var registerUserData = new RegisterUserPayload()
+        {
+            Email = userPayload.Email,
+            Password = password,
+            FirstName = userPayload.FirstName,
+            MiddleName = userPayload.MiddleName,
+            LastName = userPayload.LastName,
+            PhoneNumber = userPayload.PhoneNumber,
+            Photo = userPayload.Photo,
+            Description = userPayload.Description
+        };
+
+        var user = await RegisterUser(registerUserData, cancellationToken);
 
         var result = await _userManager.AddToRoleAsync(user, RoleConstants.Student);
 
@@ -180,21 +211,29 @@ internal class IdentityService : IIdentityService
         _studentsRepository.Add(student);
 
         await _studentsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-
-        return await Authenticate(new()
-        {
-            Email = userPayload.Email,
-            Password = userPayload.Password
-        }, cancellationToken);
     }
 
-    public async Task<AuthResponse> RegisterTeacher
+    public async Task RegisterTeacher
     (
         RegisterTeacherPayload userPayload,
         CancellationToken cancellationToken
     )
     {
-        var user = await RegisterUser(userPayload, cancellationToken);
+        var password = GeneratePassword(PasswordConstants.DefaultPasswordLength);
+
+        var registerUserData = new RegisterUserPayload()
+        {
+            Email = userPayload.Email,
+            Password = password,
+            FirstName = userPayload.FirstName,
+            MiddleName = userPayload.MiddleName,
+            LastName = userPayload.LastName,
+            PhoneNumber = userPayload.PhoneNumber,
+            Photo = userPayload.Photo,
+            Description = userPayload.Description
+        };
+
+        var user = await RegisterUser(registerUserData, cancellationToken);
 
         var result = await _userManager.AddToRoleAsync(user, RoleConstants.Teacher);
 
@@ -208,21 +247,29 @@ internal class IdentityService : IIdentityService
         _teachersRepository.Add(teacher);
 
         await _teachersRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-
-        return await Authenticate(new()
-        {
-            Email = userPayload.Email,
-            Password = userPayload.Password
-        }, cancellationToken);
     }
 
-    public async Task<AuthResponse> RegisterAdministrator
+    public async Task RegisterAdministrator
     (
         RegisterAdministratorPayload userPayload,
         CancellationToken cancellationToken
     )
     {
-        var user = await RegisterUser(userPayload, cancellationToken);
+        var password = GeneratePassword(PasswordConstants.DefaultPasswordLength);
+
+        var registerUserData = new RegisterUserPayload()
+        {
+            Email = userPayload.Email,
+            Password = password,
+            FirstName = userPayload.FirstName,
+            MiddleName = userPayload.MiddleName,
+            LastName = userPayload.LastName,
+            PhoneNumber = userPayload.PhoneNumber,
+            Photo = userPayload.Photo,
+            Description = userPayload.Description
+        };
+
+        var user = await RegisterUser(registerUserData, cancellationToken);
 
         var result = await _userManager.AddToRoleAsync(user, RoleConstants.Administrator);
 
@@ -236,12 +283,6 @@ internal class IdentityService : IIdentityService
         _administratorsRepository.Add(administrator);
 
         await _administratorsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-
-        return await Authenticate(new()
-        {
-            Email = userPayload.Email,
-            Password = userPayload.Password
-        }, cancellationToken);
     }
 
     public async Task<GetAllUsersResponse> GetAllUsers(GetAllUsersPayload payload, CancellationToken cancellationToken)
@@ -519,5 +560,43 @@ internal class IdentityService : IIdentityService
         {
             throw new ApplicationException(GeneralErrorMessages.OperationFailed);
         }
+    }
+
+    private static string GeneratePassword(int length)
+    {
+        if (length < PasswordConstants.MinPasswordLength)
+        {
+            length = PasswordConstants.MinPasswordLength;
+        }
+
+        var stringChars = new char[length];
+        var random = new Random();
+
+        var charIndex = 0;
+
+        for (; charIndex < 2; charIndex++)
+        {
+            stringChars[charIndex] =
+                PasswordConstants.UpperCaseChars[random.Next(PasswordConstants.UpperCaseChars.Length)];
+        }
+
+        for (; charIndex < 4; charIndex++)
+        {
+            stringChars[charIndex] = PasswordConstants.Numbers[random.Next(PasswordConstants.Numbers.Length)];
+        }
+
+        for (; charIndex < 6; charIndex++)
+        {
+            stringChars[charIndex] = PasswordConstants.SpecialChars[random.Next(PasswordConstants.SpecialChars.Length)];
+        }
+
+        for (; charIndex < length; charIndex++)
+        {
+            stringChars[charIndex] =
+                PasswordConstants.LowerCaseChars[random.Next(PasswordConstants.LowerCaseChars.Length)];
+        }
+
+        var finalString = new string(stringChars);
+        return finalString;
     }
 }
