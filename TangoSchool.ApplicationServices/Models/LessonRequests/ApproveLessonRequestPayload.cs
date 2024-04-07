@@ -1,9 +1,10 @@
 ﻿namespace TangoSchool.ApplicationServices.Models.LessonRequests;
 
-public record CreateLessonRequestPayload
+public record ApproveLessonRequestPayload
 (
+    string Name,
     string? Description,
     DateTimeOffset StartTime,
     DateTimeOffset FinishTime,
-    Guid TeacherId
+    Guid ClassroomId
 );

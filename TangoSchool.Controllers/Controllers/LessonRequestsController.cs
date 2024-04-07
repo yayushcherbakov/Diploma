@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using TangoSchool.ApplicationServices.Constants;
 using TangoSchool.ApplicationServices.Models.LessonRequests;
 using TangoSchool.ApplicationServices.Services.Interfaces;
+using TangoSchool.Extensions;
 
 namespace TangoSchool.Controllers;
 
 [ApiController]
-[Authorize(Roles = RoleConstants.Student, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("LessonRequest")]
 public class LessonRequestsController : ControllerBase
 {
@@ -19,6 +20,7 @@ public class LessonRequestsController : ControllerBase
         _lessonRequestsService = lessonRequestsService;
     }
 
+    [Authorize(Roles = RoleConstants.Student)]
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateLessonRequest
     (
@@ -26,39 +28,57 @@ public class LessonRequestsController : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        return Ok(await _lessonRequestsService.CreateLessonRequest(payload, cancellationToken));
+        return Ok(await _lessonRequestsService.CreateLessonRequest(User.GetUserId(), payload, cancellationToken));
     }
 
-    [HttpPut("Update")]
-    public async Task<ActionResult> UpdateLessonRequest
-    (
-        [FromBody] UpdateLessonRequest payload,
-        CancellationToken cancellationToken
-    )
-    {
-        await _lessonRequestsService.UpdateLessonRequest(payload, cancellationToken);
-
-        return Ok();
-    }
-
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<GetLessonRequestResponse>> GetLessonRequest
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Student}")]
+    [HttpPost("{id:guid}/Reject")]
+    public async Task<ActionResult> RejectLessonRequest
     (
         [FromRoute] Guid id,
         CancellationToken cancellationToken
     )
     {
-        return Ok(await _lessonRequestsService.GetLessonRequest(id, cancellationToken));
+        await _lessonRequestsService.RejectLessonRequest(User.GetUserId(), id, cancellationToken);
+
+        return Ok();
     }
-    
-    [HttpGet("Teachers/{teacherId:guid}/All")]
+
+    [Authorize(Roles = RoleConstants.Teacher)]
+    [HttpPost("{id:guid}/Approve")]
+    public async Task<ActionResult> RejectLessonRequest
+    (
+        [FromRoute] Guid id,
+        [FromBody] ApproveLessonRequestPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        await _lessonRequestsService.ApproveLessonRequest(User.GetUserId(), id, payload, cancellationToken);
+
+        return Ok();
+    }
+
+    [Authorize(Roles = RoleConstants.Teacher)]
+    [HttpGet("AllByTeacher")]
     public async Task<ActionResult<GetLessonRequestByTeacherResponse>> GetLessonRequestsByTeacher
     (
-        [FromRoute ] Guid teacherId,
         [FromQuery] GetLessonRequestByTeacherPayload payload,
         CancellationToken cancellationToken
     )
     {
-        return Ok(await _lessonRequestsService.GetLessonRequestsByTeacher(teacherId, payload, cancellationToken));
+        return Ok(await _lessonRequestsService.GetLessonRequestsByTeacher(
+            User.GetUserId(), payload, cancellationToken));
+    }
+
+    [Authorize(Roles = RoleConstants.Student)]
+    [HttpGet("AllByStudent")]
+    public async Task<ActionResult<GetLessonRequestByTeacherResponse>> GetLessonRequestsByStudent
+    (
+        [FromQuery] GetLessonRequestByTeacherPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        return Ok(await _lessonRequestsService.GetLessonRequestsByStudent(
+            User.GetUserId(), payload, cancellationToken));
     }
 }

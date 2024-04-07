@@ -12,7 +12,6 @@ internal static class LessonRequestMapper
             Description = model.Description,
             StartTime = model.StartTime,
             FinishTime = model.FinishTime,
-            StudentId = model.StudentId,
             TeacherId = model.TeacherId
         };
     }
