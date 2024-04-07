@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,7 @@ using TangoSchool.ApplicationServices.Options;
 using TangoSchool.DataAccess;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
 using TangoSchool.DataAccess.Entities;
+using TangoSchool.Documentation.Filters;
 using TangoSchool.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -80,6 +82,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new() { Title = "Tango school management service", Version = "v1" });
+    
     option.AddSecurityDefinition("Bearer", new()
     {
         In = ParameterLocation.Header,
@@ -89,6 +92,7 @@ builder.Services.AddSwaggerGen(option =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
+    
     option.AddSecurityRequirement(new()
     {
         {
@@ -103,6 +107,13 @@ builder.Services.AddSwaggerGen(option =>
             new string[] { }
         }
     });
+    
+    option.OperationFilter<AuthorizationRequirementsOperationFilter>();
+    
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    
+    option.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
 });
 
 var app = builder.Build();

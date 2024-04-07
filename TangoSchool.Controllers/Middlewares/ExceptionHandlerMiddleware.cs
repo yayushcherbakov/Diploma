@@ -3,7 +3,7 @@ using TangoSchool.ApplicationServices.Models.Common;
 
 namespace TangoSchool.Middlewares;
 
-public class ExceptionHandlerMiddleware
+internal class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionHandlerMiddleware> _logger;

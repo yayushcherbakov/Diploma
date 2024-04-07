@@ -2,7 +2,7 @@
 
 namespace TangoSchool.Extensions;
 
-public static class ClaimsPrincipalExtensions
+internal static class ClaimsPrincipalExtensions
 {
     public static string GetUserEmail(this ClaimsPrincipal user)
     {

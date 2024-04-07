@@ -9,6 +9,10 @@
         <UserSecretsId>e96ffdfd-a7e8-4aa0-aff6-63334bea69c6</UserSecretsId>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\TangoSchool.Controllers.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
         <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.27.0" />
