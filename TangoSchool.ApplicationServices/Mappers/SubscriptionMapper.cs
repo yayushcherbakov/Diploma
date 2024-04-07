@@ -15,7 +15,8 @@ internal static class SubscriptionMapper
             LessonCount = model.LessonCount,
             ExpirationDate = model.ExpirationDate,
             Price = model.Price,
-            StudentId = model.StudentId
+            StudentId = model.StudentId,
+            SubscriptionTemplateId = model.SubscriptionTemplateId
         };
     }
 }

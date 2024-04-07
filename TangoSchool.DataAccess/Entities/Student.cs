@@ -20,4 +20,6 @@ public class Student : IPersistent
     public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     public ICollection<LessonRequest> LessonRequests { get; set; } = new List<LessonRequest>();
+    
+    public ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 }

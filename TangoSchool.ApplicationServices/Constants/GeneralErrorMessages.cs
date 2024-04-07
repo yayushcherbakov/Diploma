@@ -14,6 +14,7 @@ public static class GeneralErrorMessages
     public const string ClassroomWasNotFound = "Classroom was not found";
     public const string SubscriptionWasNotFound = "Subscription was not found";
     public const string SubscriptionTemplateWasNotFound = "Subscription template was not found";
+    public const string YouHasNoActiveIndividualSubscription = "You has no active individual subscription";
     public const string GroupWasNotFound = "Group was not found";
     public const string MaxStudentCapacityReached = "Max student capacity reached";
     public const string StudentGroupWasNotFound = "Student group was not found";

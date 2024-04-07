@@ -40,12 +40,24 @@ internal class LessonRequestsService : ILessonRequestsService
             .Students
             .FilterActive()
             .Where(x => x.ApplicationUserId == userId)
-            .Select(x => new {x.Id})
+            .Select(x => new
+            {
+                x.Id,
+                HasActiveIndividualSubscription = x.Subscriptions.Any(y =>
+                    y.ExpirationDate > DateTimeOffset.UtcNow
+                    && y.LessonType == LessonType.Individual
+                    && y.AttendedLessons.Count < y.LessonCount)
+            })
             .SingleOrDefaultAsync(cancellationToken);
 
         if (studentData is null)
         {
             throw new ApplicationException(GeneralErrorMessages.StudentWasNotFound);
+        }
+
+        if (!studentData.HasActiveIndividualSubscription)
+        {
+            throw new ApplicationException(GeneralErrorMessages.YouHasNoActiveIndividualSubscription);
         }
 
         var request = payload.MapToDatabaseLesson();
@@ -177,7 +189,7 @@ internal class LessonRequestsService : ILessonRequestsService
         {
             throw new ApplicationException(GeneralErrorMessages.LessonRequestWasNotFound);
         }
-        
+
         var teacherData = await _readOnlyTangoSchoolDbContext
             .Students
             .FilterActive()
@@ -185,7 +197,8 @@ internal class LessonRequestsService : ILessonRequestsService
             .Select(x => new {x.Id})
             .SingleOrDefaultAsync(cancellationToken);
 
-        if (teacherData is null || lessonRequest.TeacherId == teacherData.Id)
+        if (teacherData is null
+            || lessonRequest.TeacherId == teacherData.Id)
         {
             throw new ApplicationException(GeneralErrorMessages.TeacherWasNotFound);
         }

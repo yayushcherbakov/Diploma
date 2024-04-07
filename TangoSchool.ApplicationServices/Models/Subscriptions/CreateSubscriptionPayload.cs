@@ -10,5 +10,6 @@ public record CreateSubscriptionPayload
     int LessonCount,
     DateTimeOffset ExpirationDate,
     decimal Price,
-    Guid StudentId
+    Guid StudentId,
+    Guid? SubscriptionTemplateId
 );

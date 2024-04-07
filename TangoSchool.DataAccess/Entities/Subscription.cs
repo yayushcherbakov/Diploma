@@ -22,5 +22,9 @@ public class Subscription
 
     public Student Student { get; set; } = null!;
 
+    public Guid? SubscriptionTemplateId { get; set; }
+
+    public SubscriptionTemplate? SubscriptionTemplate { get; set; }
+
     public ICollection<Lesson> AttendedLessons { get; set; } = new List<Lesson>();
 }
