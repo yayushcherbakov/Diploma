@@ -32,4 +32,46 @@ internal class TeacherService : ITeacherService
             ))
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<GetCurrentTeacherGroupsResponse> GetCurrentTeacherGroups
+    (
+        Guid userId,
+        GetCurrentTeacherGroupsPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        var query = _readOnlyTangoSchoolDbContext.Groups.AsQueryable();
+
+        if (!payload.IncludeTerminated)
+        {
+            query = query.FilterActive();
+        }
+
+        query = query.Where(x => x.Teacher.ApplicationUserId == userId);
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query
+            .Select(x => new GetCurrentTeacherGroupsResponseItems
+            (
+                x.Id,
+                x.Name,
+                x.Description,
+                x.Level,
+                x.JoinedStudentGroups.Count,
+                x.MaxStudentCapacity,
+                new
+                (
+                    x.TeacherId,
+                    x.Teacher.ApplicationUser.FirstName,
+                    x.Teacher.ApplicationUser.LastName,
+                    x.Teacher.ApplicationUser.MiddleName
+                ),
+                x.Terminated
+            ))
+            .AsSplitQuery()
+            .ToListAsync(cancellationToken);
+
+        return new(items, totalCount);
+    }
 }

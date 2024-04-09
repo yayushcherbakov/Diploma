@@ -2,7 +2,6 @@
 using TangoSchool.ApplicationServices.Constants;
 using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Mappers;
-using TangoSchool.ApplicationServices.Models.Classrooms;
 using TangoSchool.ApplicationServices.Models.SubscriptionTemplates;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;

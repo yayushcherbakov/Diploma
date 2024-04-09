@@ -8,4 +8,11 @@ public interface ITeacherService
     (
         CancellationToken cancellationToken
     );
+    
+    Task<GetCurrentTeacherGroupsResponse> GetCurrentTeacherGroups
+    (
+        Guid userId,
+        GetCurrentTeacherGroupsPayload payload,
+        CancellationToken cancellationToken
+    );
 }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TangoSchool.ApplicationServices.Constants;
-using TangoSchool.ApplicationServices.Models.Classrooms;
 using TangoSchool.ApplicationServices.Models.Teachers;
 using TangoSchool.ApplicationServices.Services.Interfaces;
+using TangoSchool.Extensions;
 
 namespace TangoSchool.Controllers;
 
@@ -19,7 +18,7 @@ public class TeachersController : ControllerBase
     {
         _teacherService = teacherService;
     }
-    
+
     [HttpGet("Headers")]
     public async Task<ActionResult<List<TeacherHeader>>> GetTeacherHeaders
     (
@@ -27,5 +26,15 @@ public class TeachersController : ControllerBase
     )
     {
         return Ok(await _teacherService.GetTeacherHeaders(cancellationToken));
+    }
+
+    [HttpGet("Current/Groups")]
+    public async Task<ActionResult<GetCurrentTeacherGroupsResponse>> GetCurrentTeacherGroups
+    (
+        GetCurrentTeacherGroupsPayload payload,
+        CancellationToken cancellationToken
+    )
+    {
+        return Ok(await _teacherService.GetCurrentTeacherGroups(User.GetUserId(), payload, cancellationToken));
     }
 }

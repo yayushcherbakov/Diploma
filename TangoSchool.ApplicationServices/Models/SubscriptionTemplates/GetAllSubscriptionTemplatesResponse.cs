@@ -3,5 +3,5 @@
 public record GetAllSubscriptionTemplatesResponse
 (
     List<GetAllSubscriptionTemplatesResponseItem> Items,
-    int TotalItems
+    int TotalCount
 );

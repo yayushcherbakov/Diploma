@@ -3,5 +3,5 @@
 public record GetAllGroupsResponse
 (
     List<GetAllGroupsResponseItem> Items,
-    int TotalItems
+    int TotalCount
 );

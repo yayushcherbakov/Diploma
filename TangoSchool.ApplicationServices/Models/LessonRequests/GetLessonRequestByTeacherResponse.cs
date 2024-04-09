@@ -3,5 +3,5 @@
 public record GetLessonRequestByTeacherResponse
 (
     List<GetLessonRequestByTeacherResponseItem> Items,
-    int TotalItems
+    int TotalCount
 );

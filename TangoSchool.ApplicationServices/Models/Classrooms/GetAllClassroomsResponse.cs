@@ -3,5 +3,5 @@
 public record GetAllClassroomsResponse
 (
     List<GetAllClassroomsResponseItem> Items,
-    int TotalItems
+    int TotalCount
 );
