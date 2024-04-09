@@ -19,6 +19,15 @@ public class SubscriptionsController : ControllerBase
         _subscriptionsService = subscriptionsService;
     }
 
+    [HttpPost("Metadata")]
+    public async Task<ActionResult<SubscriptionMetadata>> GetSubscriptionsMetadata
+    (
+        CancellationToken cancellationToken
+    )
+    {
+        return Ok(await _subscriptionsService.GetSubscriptionsMetadata(cancellationToken));
+    }
+
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateSubscription
     (

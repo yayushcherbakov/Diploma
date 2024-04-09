@@ -4,6 +4,11 @@ namespace TangoSchool.ApplicationServices.Services.Interfaces;
 
 public interface ISubscriptionsService
 {
+    Task<SubscriptionMetadata> GetSubscriptionsMetadata
+    (
+        CancellationToken cancellationToken
+    );
+    
     Task<Guid> CreateSubscription
     (
         CreateSubscriptionPayload payload,
