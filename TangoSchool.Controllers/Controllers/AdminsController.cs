@@ -117,7 +117,7 @@ public class AdminsController : ControllerBase
     /// <param name="id"></param>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     /// <returns></returns>
-    [HttpPost("Delete/{id:guid}")]
+    [HttpDelete("Delete/{id:guid}")]
     public async Task<IActionResult> Delete
     (
         [FromRoute] Guid id,
