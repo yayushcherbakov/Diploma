@@ -37,6 +37,8 @@ internal class TangoSchoolDbContext : IdentityDbContext<ApplicationUser, Identit
     public DbSet<Teacher> Teachers { get; set; } = null!;
 
     public DbSet<Administrator> Administrators { get; set; } = null!;
+    
+    public DbSet<Event> Events { get; set; } = null!;
 
     public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
     {

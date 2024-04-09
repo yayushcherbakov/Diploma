@@ -35,4 +35,6 @@ public interface IReadOnlyTangoSchoolDbContext
     public DbSet<Teacher> Teachers { get; }
 
     public DbSet<Administrator> Administrators { get; }
+    
+    public DbSet<Event> Events { get; }
 }
