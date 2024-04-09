@@ -112,4 +112,28 @@ public class LessonsController : ControllerBase
 
         return Ok();
     }
+    
+    [HttpPost("{id:guid}/Terminate")]
+    public async Task<ActionResult> TerminateLesson
+    (
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken
+    )
+    {
+        await _lessonsService.TerminateLesson(id, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("{id:guid}/Restore")]
+    public async Task<ActionResult> RestoreLesson
+    (
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken
+    )
+    {
+        await _lessonsService.RestoreLesson(id, cancellationToken);
+
+        return Ok();
+    }
 }

@@ -1,4 +1,6 @@
-﻿using TangoSchool.DataAccess.Enums;
+﻿using TangoSchool.ApplicationServices.Models.Lessons;
+using TangoSchool.ApplicationServices.Models.Students;
+using TangoSchool.DataAccess.Enums;
 
 namespace TangoSchool.ApplicationServices.Models.Subscriptions;
 
@@ -10,5 +12,6 @@ public record GetSubscriptionResponse
     int LessonCount,
     DateTimeOffset ExpirationDate,
     decimal Price,
-    Guid StudentId
+    StudentHeader Student,
+    List<LessonHeader> AttendedLessons
 );

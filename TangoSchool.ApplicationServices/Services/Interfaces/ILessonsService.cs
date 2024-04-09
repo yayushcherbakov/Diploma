@@ -53,4 +53,16 @@ public interface ILessonsService
         SetLessonAttendancePayload payload,
         CancellationToken cancellationToken
     );
+
+    Task TerminateLesson
+    (
+        Guid id,
+        CancellationToken cancellationToken
+    );
+    
+    Task RestoreLesson
+    (
+        Guid id,
+        CancellationToken cancellationToken
+    );
 }

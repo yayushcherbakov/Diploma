@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TangoSchool.ApplicationServices.Constants;
+using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Mappers;
+using TangoSchool.ApplicationServices.Models.Lessons;
+using TangoSchool.ApplicationServices.Models.Students;
 using TangoSchool.ApplicationServices.Models.Subscriptions;
+using TangoSchool.ApplicationServices.Models.SubscriptionTemplates;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
 using TangoSchool.DataAccess.Repositories.Interfaces;
@@ -21,6 +25,38 @@ internal class SubscriptionsService : ISubscriptionsService
     {
         _readOnlyTangoSchoolDbContext = readOnlyTangoSchoolDbContext;
         _subscriptionsRepository = subscriptionsRepository;
+    }
+
+    public async Task<SubscriptionMetadata> GetSubscriptionsMetadata
+    (
+        CancellationToken cancellationToken
+    )
+    {
+        var students = await _readOnlyTangoSchoolDbContext
+            .Students
+            .FilterActive()
+            .Select(x => new StudentHeader
+            (
+                x.Id,
+                x.ApplicationUser.FirstName,
+                x.ApplicationUser.LastName,
+                x.ApplicationUser.MiddleName
+            ))
+            .ToListAsync(cancellationToken);
+
+        var subscriptionTemplates = await _readOnlyTangoSchoolDbContext
+            .SubscriptionTemplates
+            .Where(x => x.Active)
+            .Select(x => new SubscriptionTemplateHeader
+            (
+                x.Id,
+                x.Name,
+                x.LessonType,
+                x.Price
+            ))
+            .ToListAsync(cancellationToken);
+
+        return new(students, subscriptionTemplates);
     }
 
     public async Task<Guid> CreateSubscription(CreateSubscriptionPayload payload, CancellationToken cancellationToken)
@@ -62,14 +98,33 @@ internal class SubscriptionsService : ISubscriptionsService
         var subscription = await _readOnlyTangoSchoolDbContext
             .Subscriptions
             .Where(x => x.Id == id)
-            .Select(x => new GetSubscriptionResponse(
+            .Select(x => new GetSubscriptionResponse
+            (
                 x.Name,
                 x.Description,
                 x.LessonType,
                 x.LessonCount,
                 x.ExpirationDate,
                 x.Price,
-                x.StudentId))
+                new
+                (
+                    x.Student.Id,
+                    x.Student.ApplicationUser.FirstName,
+                    x.Student.ApplicationUser.LastName,
+                    x.Student.ApplicationUser.MiddleName
+                ),
+                x.AttendedLessons.Select(y =>
+                        new LessonHeader
+                        (
+                            y.Lesson.Id,
+                            y.Lesson.Name,
+                            y.Lesson.LessonType,
+                            y.Lesson.StartTime,
+                            y.Lesson.FinishTime
+                        ))
+                    .ToList()
+            ))
+            .AsSplitQuery()
             .SingleOrDefaultAsync(cancellationToken);
 
         if (subscription is null)

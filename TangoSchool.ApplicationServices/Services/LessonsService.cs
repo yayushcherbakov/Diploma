@@ -408,4 +408,42 @@ internal class LessonsService : ILessonsService
         _lessonsRepository.AddLessonSubscriptions(attendedLessonsSubscriptions);
         await _lessonsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task TerminateLesson(Guid id, CancellationToken cancellationToken)
+    {
+        var lesson = await _readOnlyTangoSchoolDbContext
+            .Lessons
+            .Where(x => x.Id == id)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (lesson is null)
+        {
+            throw new ApplicationException(GeneralErrorMessages.LessonWasNotFound);
+        }
+
+        lesson.Terminated = true;
+
+        _lessonsRepository.Update(lesson);
+
+        await _lessonsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task RestoreLesson(Guid id, CancellationToken cancellationToken)
+    {
+        var lesson = await _readOnlyTangoSchoolDbContext
+            .Lessons
+            .Where(x => x.Id == id)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (lesson is null)
+        {
+            throw new ApplicationException(GeneralErrorMessages.LessonWasNotFound);
+        }
+
+        lesson.Terminated = false;
+
+        _lessonsRepository.Update(lesson);
+
+        await _lessonsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+    }
 }
