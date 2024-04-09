@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
             .AddScoped<ITangoSchoolDbContextMigrator, TangoSchoolDbContextMigrator>()
             .AddScoped<IStudentsRepository, StudentsRepository>()
             .AddScoped<IClassroomsRepository, ClassroomsRepository>()
+            .AddScoped<IEventRepository, EventRepository>()
             .AddScoped<IGroupsRepository, GroupsRepository>()
             .AddScoped<ISubscriptionsRepository, SubscriptionsRepository>()
             .AddScoped<ILessonsRepository, LessonsRepository>()

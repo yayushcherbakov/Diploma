@@ -2,6 +2,7 @@
 using TangoSchool.ApplicationServices.Constants;
 using TangoSchool.ApplicationServices.Extensions;
 using TangoSchool.ApplicationServices.Mappers;
+using TangoSchool.ApplicationServices.Models.Events;
 using TangoSchool.ApplicationServices.Models.SubscriptionTemplates;
 using TangoSchool.ApplicationServices.Services.Interfaces;
 using TangoSchool.DataAccess.DatabaseContexts.Interfaces;
@@ -10,69 +11,56 @@ using TangoSchool.DataAccess.Repositories.Interfaces;
 
 namespace TangoSchool.ApplicationServices.Services;
 
-internal class SubscriptionTemplatesService : ISubscriptionTemplatesService
+internal class EventService : IEventService
 {
     private readonly IReadOnlyTangoSchoolDbContext _readOnlyTangoSchoolDbContext;
-    private readonly ISubscriptionTemplatesRepository _subscriptionTemplatesRepository;
+    private readonly IEventRepository _eventRepository;
 
-    public SubscriptionTemplatesService
+    public EventService
     (
         IReadOnlyTangoSchoolDbContext readOnlyTangoSchoolDbContext,
-        ISubscriptionTemplatesRepository subscriptionTemplatesRepository
+        IEventRepository eventRepository
     )
     {
         _readOnlyTangoSchoolDbContext = readOnlyTangoSchoolDbContext;
-        _subscriptionTemplatesRepository = subscriptionTemplatesRepository;
+        _eventRepository = eventRepository;
     }
 
-    public async Task<Guid> CreateSubscriptionTemplate
-    (
-        CreateSubscriptionTemplatePayload payload,
-        CancellationToken cancellationToken
-    )
+    public async Task<Guid> CreateEvent(CreateEventPayload payload, CancellationToken cancellationToken)
     {
-        var newSubscriptionTemplate = _subscriptionTemplatesRepository.Add(payload.MapToDatabaseSubscriptionTemplate());
+        var newEvent = _eventRepository.Add(payload.MapToDatabaseEvent());
 
-        await _subscriptionTemplatesRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+        await _eventRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-        return newSubscriptionTemplate.Id;
+        return newEvent.Id;
     }
 
-    public async Task UpdateSubscriptionTemplate
-    (
-        UpdateSubscriptionTemplate payload,
-        CancellationToken cancellationToken
-    )
+    public async Task UpdateEvent(UpdateEventPayload payload, CancellationToken cancellationToken)
     {
-        var subscriptionTemplate = await _readOnlyTangoSchoolDbContext
-            .SubscriptionTemplates
+        var event = await _readOnlyTangoSchoolDbContext
             .Where(x => x.Id == payload.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
-        if (subscriptionTemplate is null)
+        if (event is null)
         {
             throw new ApplicationException(GeneralErrorMessages.SubscriptionTemplateWasNotFound);
         }
 
-        subscriptionTemplate.Name = payload.Name;
-        subscriptionTemplate.Description = payload.Description;
-        subscriptionTemplate.LessonType = payload.LessonType;
-        subscriptionTemplate.LessonCount = payload.LessonCount;
-        subscriptionTemplate.ExpirationDate = payload.ExpirationDate;
-        subscriptionTemplate.ExpirationDayCount = payload.ExpirationDayCount;
-        subscriptionTemplate.Price = payload.Price;
-        subscriptionTemplate.Active = payload.Active;
+        event.Name = payload.Name;
+        event.Description = payload.Description;
+        event.LessonType = payload.LessonType;
+        event.LessonCount = payload.LessonCount;
+        event.ExpirationDate = payload.ExpirationDate;
+        event.ExpirationDayCount = payload.ExpirationDayCount;
+        event.Price = payload.Price;
+        event.Active = payload.Active;
 
-        _subscriptionTemplatesRepository.Update(subscriptionTemplate);
+        _eventRepository.Update(event);
 
-        await _subscriptionTemplatesRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+        await _eventRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<GetSubscriptionTemplateResponse> GetSubscriptionTemplate
-    (
-        Guid id,
-        CancellationToken cancellationToken
-    )
+    public async Task<GetEventResponse> GetEvent(Guid id, CancellationToken cancellationToken)
     {
         var subscriptionTemplate = await _readOnlyTangoSchoolDbContext
             .SubscriptionTemplates
@@ -96,11 +84,7 @@ internal class SubscriptionTemplatesService : ISubscriptionTemplatesService
         return subscriptionTemplate;
     }
 
-    public async Task<GetAllSubscriptionTemplatesResponse> GetAllSubscriptionTemplates
-    (
-        GetAllSubscriptionTemplatesPayload payload,
-        CancellationToken cancellationToken
-    )
+    public async Task<GetAllEventsResponse> GetAllEvents(GetAllEventsPayload payload, CancellationToken cancellationToken)
     {
         IQueryable<SubscriptionTemplate> query = _readOnlyTangoSchoolDbContext.SubscriptionTemplates;
 

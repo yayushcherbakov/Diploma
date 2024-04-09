@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
             .AddScoped<ILessonsService, LessonsService>()
             .AddScoped<ILessonRequestsService, LessonRequestsService>()
             .AddScoped<ISubscriptionTemplatesService, SubscriptionTemplatesService>()
+            .AddScoped<IEventService, EventService>()
             .AddScoped<IGroupsService, GroupsService>()
             .AddScoped<IEmailSender, EmailSender>()
             .AddScoped<ITeacherService, TeacherService>()
