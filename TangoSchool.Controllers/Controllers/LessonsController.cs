@@ -113,6 +113,7 @@ public class LessonsController : ControllerBase
         return Ok();
     }
     
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("{id:guid}/Terminate")]
     public async Task<ActionResult> TerminateLesson
     (
@@ -125,6 +126,7 @@ public class LessonsController : ControllerBase
         return Ok();
     }
 
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("{id:guid}/Restore")]
     public async Task<ActionResult> RestoreLesson
     (

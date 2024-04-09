@@ -8,7 +8,7 @@ using TangoSchool.ApplicationServices.Services.Interfaces;
 namespace TangoSchool.Controllers;
 
 [ApiController]
-[Authorize(Roles = RoleConstants.Administrator, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("Groups")]
 public class GroupsController : ControllerBase
 {
@@ -19,6 +19,7 @@ public class GroupsController : ControllerBase
         _groupsService = groupsService;
     }
 
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("Metadata")]
     public async Task<ActionResult<GroupsMetadata>> GetGroupsMetadata
     (
@@ -27,7 +28,8 @@ public class GroupsController : ControllerBase
     {
         return Ok(await _groupsService.GetGroupsMetadata(cancellationToken));
     }
-    
+
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateGroup
     (
@@ -38,6 +40,7 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.CreateGroup(payload, cancellationToken));
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateGroup
     (
@@ -60,6 +63,7 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.GetGroup(id, cancellationToken));
     }
 
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpGet("All")]
     public async Task<ActionResult<GetAllGroupsResponse>> GetAllGroups
     (
@@ -70,6 +74,7 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.GetAllGroups(payload, cancellationToken));
     }
 
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpGet("Headers")]
     public async Task<ActionResult<List<GroupHeader>>> GetGroupHeaders
     (
@@ -79,6 +84,7 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.GetGroupHeaders(cancellationToken));
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Terminate")]
     public async Task<ActionResult> TerminateGroup
     (
@@ -91,6 +97,7 @@ public class GroupsController : ControllerBase
         return Ok();
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Restore")]
     public async Task<ActionResult> RestoreGroup
     (
@@ -103,6 +110,7 @@ public class GroupsController : ControllerBase
         return Ok();
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Students/Add/{studentId:guid}")]
     public async Task<ActionResult> AddStudentToGroup
     (
@@ -116,6 +124,7 @@ public class GroupsController : ControllerBase
         return Ok();
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Students/Remove/{studentId:guid}")]
     public async Task<ActionResult> RemoveStudentFromGroup
     (

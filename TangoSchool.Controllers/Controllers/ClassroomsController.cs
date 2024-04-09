@@ -8,7 +8,7 @@ using TangoSchool.ApplicationServices.Services.Interfaces;
 namespace TangoSchool.Controllers;
 
 [ApiController]
-[Authorize(Roles = RoleConstants.Administrator, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("Classrooms")]
 public class ClassroomsController : ControllerBase
 {
@@ -19,6 +19,7 @@ public class ClassroomsController : ControllerBase
         _classroomsService = classroomsService;
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateClassroom
     (
@@ -29,6 +30,7 @@ public class ClassroomsController : ControllerBase
         return Ok(await _classroomsService.CreateClassroom(payload, cancellationToken));
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateClassroom
     (
@@ -51,6 +53,7 @@ public class ClassroomsController : ControllerBase
         return Ok(await _classroomsService.GetClassroom(id, cancellationToken));
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Terminate")]
     public async Task<ActionResult> TerminateClassroom
     (
@@ -63,6 +66,7 @@ public class ClassroomsController : ControllerBase
         return Ok();
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Restore")]
     public async Task<ActionResult> RestoreClassroom
     (
@@ -75,6 +79,7 @@ public class ClassroomsController : ControllerBase
         return Ok();
     }
 
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpGet("All")]
     public async Task<ActionResult<GetAllClassroomsResponse>> GetAllClassrooms
     (
@@ -85,6 +90,7 @@ public class ClassroomsController : ControllerBase
         return Ok(await _classroomsService.GetAllClassrooms(payload, cancellationToken));
     }
 
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpGet("AvailableClassrooms")]
     public async Task<ActionResult<List<ClassroomHeader>>> GetAvailableClassrooms
     (
@@ -95,6 +101,7 @@ public class ClassroomsController : ControllerBase
         return Ok(await _classroomsService.GetAvailableClassrooms(payload, cancellationToken));
     }
 
+    [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpGet("Headers")]
     public async Task<ActionResult<List<ClassroomHeader>>> GetClassroomHeaders
     (
