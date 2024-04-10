@@ -8,7 +8,7 @@ using TangoSchool.ApplicationServices.Services.Interfaces;
 namespace TangoSchool.Controllers;
 
 [ApiController]
-[Authorize(Roles = RoleConstants.Administrator, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("Events")]
 public class EventsController : ControllerBase
 {
@@ -19,6 +19,7 @@ public class EventsController : ControllerBase
         _eventService = eventService;
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateEvente
     (
@@ -29,6 +30,7 @@ public class EventsController : ControllerBase
         return Ok(await _eventService.CreateEvent(payload, cancellationToken));
     }
 
+    [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateEvent
     (
