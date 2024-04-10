@@ -2,8 +2,9 @@
 
 namespace TangoSchool.ApplicationServices.Models.Events;
 
-public record GetEventResponse
+public record GetAllEventsResponseItem
 (
+    Guid Id,
     string Name,
     string? Description,
     DateTimeOffset StartTime,

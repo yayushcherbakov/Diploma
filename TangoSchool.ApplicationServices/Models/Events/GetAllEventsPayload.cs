@@ -1,3 +1,7 @@
 ﻿namespace TangoSchool.ApplicationServices.Models.Events;
 
-public record GetAllEventsPayload();
+public record GetAllEventsPayload
+(
+    int Page,
+    int ItemsPerPage
+);
