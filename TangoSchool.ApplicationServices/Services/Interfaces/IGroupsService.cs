@@ -51,5 +51,6 @@ public interface IGroupsService
     );
 
     Task AddStudentToGroup(Guid groupId, Guid studentId, CancellationToken cancellationToken);
+    
     Task RemoveStudentFromGroup(Guid groupId, Guid studentId, CancellationToken cancellationToken);
 }

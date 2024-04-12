@@ -7,6 +7,9 @@ using TangoSchool.ApplicationServices.Services.Interfaces;
 
 namespace TangoSchool.Controllers;
 
+/// <summary>
+/// Контроллер для работы с группами.
+/// </summary>
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("Groups")]
@@ -14,11 +17,18 @@ public class GroupsController : ControllerBase
 {
     private readonly IGroupsService _groupsService;
 
+    /// <summary>
+    /// Создает экземпляр контроллера GroupsController с указанным сервисом групп.
+    /// </summary>
+    /// <param name="groupsService">Сервис групп.</param>
     public GroupsController(IGroupsService groupsService)
     {
         _groupsService = groupsService;
     }
 
+    /// <summary>
+    /// Получает метаданные о группах.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("Metadata")]
     public async Task<ActionResult<GroupsMetadata>> GetGroupsMetadata
@@ -29,6 +39,9 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.GetGroupsMetadata(cancellationToken));
     }
 
+    /// <summary>
+    /// Создает новую группу.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateGroup
@@ -40,6 +53,9 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.CreateGroup(payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Обновляет информацию о группе.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateGroup
@@ -53,6 +69,9 @@ public class GroupsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Получает информацию о группе по её идентификатору.
+    /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<GetGroupResponse>> GetGroup
     (
@@ -63,6 +82,9 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.GetGroup(id, cancellationToken));
     }
 
+    /// <summary>
+    /// Получает информацию о всех группах.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpGet("All")]
     public async Task<ActionResult<GetAllGroupsResponse>> GetAllGroups
@@ -74,6 +96,9 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.GetAllGroups(payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Получает основную информацию и идентификаторы всех групп.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpGet("Headers")]
     public async Task<ActionResult<List<GroupHeader>>> GetGroupHeaders
@@ -84,6 +109,9 @@ public class GroupsController : ControllerBase
         return Ok(await _groupsService.GetGroupHeaders(cancellationToken));
     }
 
+    /// <summary>
+    /// Помечает группу удаленной по её идентификатору.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Terminate")]
     public async Task<ActionResult> TerminateGroup
@@ -97,6 +125,9 @@ public class GroupsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Восстанавливает помеченную удаленной группу по её идентификатору.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Restore")]
     public async Task<ActionResult> RestoreGroup
@@ -110,6 +141,9 @@ public class GroupsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Добавляет студента в группу.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("{id:guid}/Students/Add/{studentId:guid}")]
     public async Task<ActionResult> AddStudentToGroup
@@ -124,8 +158,11 @@ public class GroupsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Удаляет студента из группы.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
-    [HttpPost("{id:guid}/Students/Remove/{studentId:guid}")]
+    [HttpDelete("{id:guid}/Students/Remove/{studentId:guid}")]
     public async Task<ActionResult> RemoveStudentFromGroup
     (
         [FromRoute] Guid id,

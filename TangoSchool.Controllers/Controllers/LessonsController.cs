@@ -8,6 +8,9 @@ using TangoSchool.Extensions;
 
 namespace TangoSchool.Controllers;
 
+/// <summary>
+/// Контроллер для управления уроками в системе управления TangoSchool.
+/// </summary>
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("Lessons")]
@@ -15,11 +18,18 @@ public class LessonsController : ControllerBase
 {
     private readonly ILessonsService _lessonsService;
 
+    /// <summary>
+    /// Создает экземпляр контроллера LessonsController с указанным сервисом управления уроками.
+    /// </summary>
+    /// <param name="lessonsService">Сервис управления уроками.</param>
     public LessonsController(ILessonsService lessonsService)
     {
         _lessonsService = lessonsService;
     }
 
+    /// <summary>
+    /// Получает основную информацию об уроках.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("Metadata")]
     public async Task<ActionResult<LessonsMetadata>> GetLessonsMetadata
@@ -30,6 +40,9 @@ public class LessonsController : ControllerBase
         return Ok(await _lessonsService.GetLessonsMetadata(cancellationToken));
     }
 
+    /// <summary>
+    /// Создает новый урок.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateLesson
@@ -41,6 +54,9 @@ public class LessonsController : ControllerBase
         return Ok(await _lessonsService.CreateLesson(payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Обновляет информацию о существующем уроке.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateLesson
@@ -54,6 +70,9 @@ public class LessonsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Получает информацию о конкретном уроке по его идентификатору.
+    /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<GetLessonResponse>> GetLesson
     (
@@ -64,6 +83,9 @@ public class LessonsController : ControllerBase
         return Ok(await _lessonsService.GetLesson(id, cancellationToken));
     }
 
+    /// <summary>
+    /// Получает информацию о всех уроках в системе.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
     [HttpGet("All")]
     public async Task<ActionResult<GetAllLessonsResponse>> GetAllLessons
@@ -75,6 +97,9 @@ public class LessonsController : ControllerBase
         return Ok(await _lessonsService.GetAllLessons(payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Получает информацию о всех уроках, связанных с определенным студентом.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Student)]
     [HttpGet("AllByStudent")]
     public async Task<ActionResult<GetAllLessonsResponse>> GetAllLessonsByStudent
@@ -87,6 +112,9 @@ public class LessonsController : ControllerBase
             User.GetUserId(), payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Получает информацию о всех уроках, преподаваемых определенным учителем.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Teacher)]
     [HttpGet("AllByTeacher")]
     public async Task<ActionResult<GetAllLessonsResponse>> GetAllLessonsByTeacher
@@ -99,6 +127,9 @@ public class LessonsController : ControllerBase
             User.GetUserId(), payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Устанавливает посещаемость для определенного урока.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("{id:guid}/SetLessonAttendance")]
     public async Task<ActionResult> SetLessonAttendance
@@ -112,7 +143,10 @@ public class LessonsController : ControllerBase
 
         return Ok();
     }
-    
+
+    /// <summary>
+    /// Завершает деятельность урока по его идентификатору.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("{id:guid}/Terminate")]
     public async Task<ActionResult> TerminateLesson
@@ -126,6 +160,9 @@ public class LessonsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Восстанавливает завершенный урок по его идентификатору.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Administrator}")]
     [HttpPost("{id:guid}/Restore")]
     public async Task<ActionResult> RestoreLesson

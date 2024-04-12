@@ -8,6 +8,9 @@ using TangoSchool.Extensions;
 
 namespace TangoSchool.Controllers;
 
+/// <summary>
+/// Контроллер заявок на уроки и управления ими.
+/// </summary>
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("LessonRequest")]
@@ -15,11 +18,18 @@ public class LessonRequestsController : ControllerBase
 {
     private readonly ILessonRequestsService _lessonRequestsService;
 
+    /// <summary>
+    /// Создает экземпляр контроллера LessonRequestsController с указанным сервисом заявок на уроки.
+    /// </summary>
+    /// <param name="lessonRequestsService">Сервис заявок на уроки.</param>
     public LessonRequestsController(ILessonRequestsService lessonRequestsService)
     {
         _lessonRequestsService = lessonRequestsService;
     }
 
+    /// <summary>
+    /// Создает новую заявку на урок с указанными параметрами.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Student)]
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateLessonRequest
@@ -31,6 +41,9 @@ public class LessonRequestsController : ControllerBase
         return Ok(await _lessonRequestsService.CreateLessonRequest(User.GetUserId(), payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Отклоняет заявку на урок по ее идентификатору.
+    /// </summary>
     [Authorize(Roles = $"{RoleConstants.Teacher},{RoleConstants.Student}")]
     [HttpPost("{id:guid}/Reject")]
     public async Task<ActionResult> RejectLessonRequest
@@ -44,6 +57,9 @@ public class LessonRequestsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Утверждает заявку на урок по ее идентификатору.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Teacher)]
     [HttpPost("{id:guid}/Approve")]
     public async Task<ActionResult> RejectLessonRequest
@@ -58,6 +74,9 @@ public class LessonRequestsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Получает все заявки на урок, отправленные учителем.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Teacher)]
     [HttpGet("AllByTeacher")]
     public async Task<ActionResult<GetLessonRequestByTeacherResponse>> GetLessonRequestsByTeacher
@@ -70,6 +89,9 @@ public class LessonRequestsController : ControllerBase
             User.GetUserId(), payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Получает все заявки на урок, отправленные студентом.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Student)]
     [HttpGet("AllByStudent")]
     public async Task<ActionResult<GetLessonRequestByTeacherResponse>> GetLessonRequestsByStudent

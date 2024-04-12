@@ -8,7 +8,7 @@ using TangoSchool.ApplicationServices.Services.Interfaces;
 namespace TangoSchool.Controllers;
 
 /// <summary>
-///  
+/// Контроллер для управления администраторами системы.
 /// </summary>
 [ApiController]
 [Route("Admins")]
@@ -27,9 +27,9 @@ public class AdminsController : ControllerBase
     }
 
     /// <summary>
-    /// Получает информацию о пользователе по его идентификатору.
+    /// Получение информации о пользователе по его уникальному идентификатору.
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">Уникальный идентификатор пользователя.</param>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     [HttpGet("UserInformation/{id:guid}")]
     public async Task<ActionResult<UserInformationWithRoles>> GetUserInformation
@@ -42,9 +42,9 @@ public class AdminsController : ControllerBase
     }
 
     /// <summary>
-    /// Получает список всех пользователей с возможностью фильтрации и пагинации.
+    /// Получение списока всех пользователей с пагинацией страниц.
     /// </summary>
-    /// <param name="payload"></param>
+    /// <param name="payload">Модель включает себя количество элементов на странице с выдачей и номер страницы. </param>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     [HttpGet("AllUsers")]
     public async Task<ActionResult<GetAllUsersResponse>> GetAllUsers
@@ -58,9 +58,9 @@ public class AdminsController : ControllerBase
 
 
     /// <summary>
-    /// Регистрирует нового учителя в системе.
+    /// Регистрация нового учителя в системе.
     /// </summary>
-    /// <param name="userPayload"></param>
+    /// <param name="userPayload">Модель с информацией для создания учителя.</param>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     /// <returns></returns>
     [HttpPost("RegisterTeacher")]
@@ -76,9 +76,9 @@ public class AdminsController : ControllerBase
     }
 
     /// <summary>
-    /// Регистрирует нового студента в системе.
+    /// Регистрация нового студента в системе.
     /// </summary>
-    /// <param name="userPayload"></param>
+    /// <param name="userPayload">Модель с информацией для создания студента.</param>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     /// <returns></returns>
     [HttpPost("RegisterStudent")]
@@ -94,9 +94,9 @@ public class AdminsController : ControllerBase
     }
 
     /// <summary>
-    /// Регистрирует нового администратора в системе.
+    /// Регистрация нового администратора в системе.
     /// </summary>
-    /// <param name="userPayload"></param>
+    /// <param name="userPayload">Модель с информацией для создания администратора.</param>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     /// <returns></returns>
     [HttpPost("RegisterAdministrator")]
@@ -112,9 +112,9 @@ public class AdminsController : ControllerBase
     }
 
     /// <summary>
-    /// Удаляет пользователя из системы по указанному идентификатору.
+    /// Удаление пользователя из системы по указанному идентификатору.
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">Уникальный идентификатор удаляемого пользователя.</param>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     /// <returns></returns>
     [HttpDelete("Delete/{id:guid}")]
@@ -130,10 +130,10 @@ public class AdminsController : ControllerBase
     }
 
     /// <summary>
-    /// Обновляет информацию о пользователе в системе по указанному идентификатору.
+    /// Обновление информации о пользователе в системе по указанному идентификатору.
     /// </summary>
-    /// <param name="id"></param>
-    /// /// <param name="request"></param>
+    /// <param name="id">Уникальный идентификатор пользователя.</param>
+    /// /// <param name="request">Модель обновления пользователя.</param>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     [HttpPut("UpdateUser/{id:guid}")]
     public async Task<IActionResult> UpdateUser
@@ -149,7 +149,7 @@ public class AdminsController : ControllerBase
     }
 
     /// <summary>
-    /// Отзывает все токены доступа и обновления, выпущенные для пользователей системы.
+    /// Отзыв всех токенов доступа, выпущенных для пользователей системы.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены операции для асинхронного управления.</param>
     [HttpPost]

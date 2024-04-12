@@ -7,6 +7,9 @@ using TangoSchool.ApplicationServices.Services.Interfaces;
 
 namespace TangoSchool.Controllers;
 
+/// <summary>
+/// Контроллер для работы с событиями.
+/// </summary>
 [ApiController]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("Events")]
@@ -14,11 +17,18 @@ public class EventsController : ControllerBase
 {
     private readonly IEventService _eventService;
 
+    /// <summary>
+    /// Создает экземпляр контроллера EventsController с указанным сервисом событий.
+    /// </summary>
+    /// <param name="eventService">Сервис событий.</param>
     public EventsController(IEventService eventService)
     {
         _eventService = eventService;
     }
 
+    /// <summary>
+    /// Создает новое событие.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateEvente
@@ -30,6 +40,9 @@ public class EventsController : ControllerBase
         return Ok(await _eventService.CreateEvent(payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Обновляет информацию о событии.
+    /// </summary>
     [Authorize(Roles = RoleConstants.Administrator)]
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateEvent
@@ -43,6 +56,9 @@ public class EventsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Получает информацию о событии по его идентификатору.
+    /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<GetEventResponse>> GetEvent
     (
@@ -53,6 +69,9 @@ public class EventsController : ControllerBase
         return Ok(await _eventService.GetEvent(id, cancellationToken));
     }
 
+    /// <summary>
+    /// Получает информацию о всех событиях.
+    /// </summary>
     [HttpGet("All")]
     public async Task<ActionResult<GetAllEventsResponse>> GetAllEvents
     (

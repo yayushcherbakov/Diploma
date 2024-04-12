@@ -7,6 +7,9 @@ using TangoSchool.ApplicationServices.Services.Interfaces;
 
 namespace TangoSchool.Controllers;
 
+/// <summary>
+/// Контроллер для управления абонементами в системе TangoSchool.
+/// </summary>
 [ApiController]
 [Authorize(Roles = RoleConstants.Administrator, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [Route("Subscriptions")]
@@ -14,11 +17,18 @@ public class SubscriptionsController : ControllerBase
 {
     private readonly ISubscriptionsService _subscriptionsService;
 
+    /// <summary>
+    /// Инициализирует новый экземпляр контроллера SubscriptionsController.
+    /// </summary>
+    /// <param name="subscriptionsService">Сервис управления абонементами.</param>
     public SubscriptionsController(ISubscriptionsService subscriptionsService)
     {
         _subscriptionsService = subscriptionsService;
     }
 
+    /// <summary>
+    /// Получает метаданные о доступных абонементах.
+    /// </summary>
     [HttpPost("Metadata")]
     public async Task<ActionResult<SubscriptionMetadata>> GetSubscriptionsMetadata
     (
@@ -28,6 +38,9 @@ public class SubscriptionsController : ControllerBase
         return Ok(await _subscriptionsService.GetSubscriptionsMetadata(cancellationToken));
     }
 
+    /// <summary>
+    /// Создает новый абонемент с указанными параметрами.
+    /// </summary>
     [HttpPost("Create")]
     public async Task<ActionResult<Guid>> CreateSubscription
     (
@@ -38,6 +51,9 @@ public class SubscriptionsController : ControllerBase
         return Ok(await _subscriptionsService.CreateSubscription(payload, cancellationToken));
     }
 
+    /// <summary>
+    /// Обновляет информацию о существующем абонементе.
+    /// </summary>
     [HttpPut("Update")]
     public async Task<ActionResult> UpdateSubscription
     (
@@ -50,6 +66,9 @@ public class SubscriptionsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Возвращает информацию о абонементе по его идентификатору.
+    /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<GetSubscriptionResponse>> GetSubscription
     (
