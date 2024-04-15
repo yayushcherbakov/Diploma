@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TangoSchool.DataAccess", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TangoSchool.ApplicationServices", "TangoSchool.ApplicationServices\TangoSchool.ApplicationServices.csproj", "{B12104AB-849F-403C-87A4-CDEADAB8B305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TangoSchool.Access", "TangoSchool.Access\TangoSchool.Access.csproj", "{D0DCE153-9B27-40B2-AFA7-C6714D1EB8F1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,5 @@ Global
 		{B12104AB-849F-403C-87A4-CDEADAB8B305}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B12104AB-849F-403C-87A4-CDEADAB8B305}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B12104AB-849F-403C-87A4-CDEADAB8B305}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D0DCE153-9B27-40B2-AFA7-C6714D1EB8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D0DCE153-9B27-40B2-AFA7-C6714D1EB8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D0DCE153-9B27-40B2-AFA7-C6714D1EB8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D0DCE153-9B27-40B2-AFA7-C6714D1EB8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

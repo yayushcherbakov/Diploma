@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TangoSchool.Access\TangoSchool.Access.csproj" />
       <ProjectReference Include="..\TangoSchool.DataAccess\TangoSchool.DataAccess.csproj" />
     </ItemGroup>
 
