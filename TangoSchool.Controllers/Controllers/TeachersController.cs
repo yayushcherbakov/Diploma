@@ -49,7 +49,7 @@ public class TeachersController : ControllerBase
     [HttpGet("Current/Groups")]
     public async Task<ActionResult<GetCurrentTeacherGroupsResponse>> GetCurrentTeacherGroups
     (
-        GetCurrentTeacherGroupsPayload payload,
+        [FromQuery] GetCurrentTeacherGroupsPayload payload,
         CancellationToken cancellationToken
     )
     {
